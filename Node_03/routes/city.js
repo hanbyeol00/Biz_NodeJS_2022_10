@@ -65,14 +65,6 @@ router.get("/pop", (req, res) => {
   console.log(req.query);
 });
 
-// http://localhost:3000/city/country/ 의 요청처리
-router.get("/country", (req, res) => {
-  // res.send("나는 국가 정보입니다");
-  const countrySelect = "SELECT * FROM country limit 0, 10";
-  mysql.query(countrySelect, (err, data, fields) => {
-    res.json(data);
-  });
-});
 
 /**
  * http://localhost:3000/country/100/500
@@ -83,14 +75,19 @@ router.get("/country", (req, res) => {
  * 이 두개의 요청을 한개의 router.get() 에서 처리
  */
 router.get("/country", (req, res) => {
-  const lt_GNP = req.query.lt_GNP;
-  const gt_GNP = req.query.gt_GNP;
-  const citySelectWhere =
-    "SELECT * FROM country WHERE GNP < ? HAVING BETWEEN ? AND ?";
-  mysql.execute(citySelectWhere, [lt_GNP, gt_GNP], (err, result, f) => {
+  const GNP1 = req.query.GNP1;
+  const GNP2 = req.query.GNP2;
+  if (!GNP2){
+    const citySelectWhere = "SELECT * FROM country WHERE GNP <= ? ORDER BY GNP asc";
+    mysql.execute(citySelectWhere, [GNP1], (err, result, f) => {
     res.json(result);
   });
-  console.log(req.query);
+  } else {
+    const citySelectWhere = "SELECT * FROM country WHERE GNP BETWEEN ? AND ? ORDER BY GNP asc";
+    mysql.execute(citySelectWhere, [GNP1, GNP2], (err, result, f) => {
+    res.json(result);
+  });
+  }
 });
 
 // localhost:3000/city/도시이름 이라고 요청을 하면
@@ -99,6 +96,15 @@ router.get("/:name", (req, res) => {
   const citySelectWhere = "SELECT * FROM city WHERE name = ?";
   mysql.execute(citySelectWhere, [ct_name], (err, result, f) => {
     res.json(result);
+  });
+});
+
+// http://localhost:3000/city/country/ 의 요청처리
+router.get("/country", (req, res) => {
+  // res.send("나는 국가 정보입니다");
+  const countrySelect = "SELECT * FROM country limit 0, 10";
+  mysql.query(countrySelect, (err, data, fields) => {
+    res.json(data);
   });
 });
 
