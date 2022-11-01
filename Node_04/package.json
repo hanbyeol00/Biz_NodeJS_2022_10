@@ -1,21 +1,22 @@
 {
-  "name": "node_02",
+  "name": "node_04",
   "version": "1.0.0",
-  "description": "\\*`nodejs`와 `express` 연동한 `web application server`",
   "main": "./bin/www.js",
   "type": "module",
+  "bin": {
+    "node_04": "bin/app.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./bin/www.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "gksquf6670@gmail.com",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "mysql2": "^2.3.3"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.20"
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.3",
+    "path": "^0.12.7"
   }
 }

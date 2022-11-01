@@ -7,7 +7,6 @@
  * "안녕하세요 도시 정보 입니다~~" 라고 화면에 나타나도록
  * app.js 에 설정
  */
-import e from "express";
 import express from "express";
 import mysql from "../modules/mysqlDB.js";
 

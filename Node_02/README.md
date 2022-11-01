@@ -1,6 +1,6 @@
 # Node_02 프로젝트
 
-\*`nodejs`와 `express` 연동한 `web application server`
+- `nodejs`와 `express` 연동한 `web application server`
 
 - `mysql` 을 연동한 `DB 연동 Application`
 
