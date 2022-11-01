@@ -108,7 +108,7 @@ router.get("/country", (req, res) => {
 // 두가지 Req 를 처리하기 위하여
 // RequestMapping을 배열로 선언하여
 // 두가지 Req 를 일단 모두 받도록 처리한다.
-// Multi RequestMa
+// Multi RequestMapping 이라고 한다.
 router.get(["/country/:start/:end", "/country/:end"], (req, res) => {
   // 변수가 2개일때, 또는 변수가 1개일때 어떻게 처리할 것인가
   // let start = req.params.start;
@@ -129,7 +129,8 @@ router.get(["/country/:start/:end", "/country/:end"], (req, res) => {
    *
    * 만약
    * country/100 처럼 1개의 변수를 전달하면
-   * start = undefined, end = 300 의 값이 변수에 담기게 된다
+   * start = undefined, end = 100 의 값이 변수에 담기게 된다
+   * 만약 start 가 undefined 이면 start = 0 으로 세팅하면 된다
    */
 
   // if (!start) {
