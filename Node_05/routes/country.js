@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
   });
 });
 
-// 주소창에 http://localhost:300/country/list 입력하고
+// 주소창에 http://localhost:3000/country/list 입력하고
 // Enter 를 눌렀을때 처리하는 URI
 // 메뉴에서 link 를 클릭했을때 처리하는 URI
 // 화면을 처리하는 구간
@@ -31,7 +31,7 @@ router.post("/list", (req, res) => {
   // name 변수에 저장
   const name = req.body.c_name;
   const sql =
-    " SELECT * FROM country " + " WHERE name LIKE " + " CONCAT('%',?,'%')";
+    " SELECT * FROM country " + " WHERE name LIKE " + " CONCAT('%',?,'%') ";
   mysql.execute(sql, [name], (err, countrys, field) => {
     res.render("country", { countrys });
   });
