@@ -9,4 +9,4 @@
 
 ## 프로젝트 목록
 
-### :+1: 학사정보 프로젝트
+### :+1: [학사정보 프로젝트](https://github.com/hanbyeol00/Biz_NodeJS_2022_10/tree/master/Node_06)
