@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        width: 100vw;
+        height: 100vh;
+      }
+      body {
+        width: 100%;
+        height: 100%;
+      }
+      header {
+        padding: 1.2em;
+        text-align: center;
+        background-color: #f2aa4c;
+        color: #000000;
+      }
+      form,
+      table {
+        width: 80%;
+        margin: 20px auto;
+      }
+      th {
+        padding: 5px;
+        font-size: 20px;
+      }
+      td,
+      th {
+        border-bottom: 1px solid #bbb;
+        border-top: 1px solid #bbb;
+      }
+      input {
+        border-radius: 3px;
+        padding: 10px;
+        outline: none;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>학생정보</h1>
+    </header>
+    <form method="POST">
+      <label>학생정보</label>
+      <input name="st_num" placeholder="학번" />
+      <input name="st_name" placeholder="이름" />
+      <input name="st_dept" placeholder="학과" />
+      <input name="st_grade" placeholder="학년" />
+      <input name="st_tal" placeholder="전화번호" />
+      <input name="st_addr" placeholder="주소" />
+
+      <button>추가</button>
+      <% if(!num){ %> <%= alert("학번을 입력해주세요)%> <% } %>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>학번</th>
+          <th>이름</th>
+          <th>학과</th>
+          <th>학년</th>
+          <th>전화번호</th>
+          <th>주소</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% schoolData.forEach((students)=> { %>
+        <tr>
+          <td><%= students.st_num %></td>
+          <td><%= students.st_name %></td>
+          <td><%= students.st_dept %></td>
+          <td><%= students.st_grade %></td>
+          <td><%= students.st_tel %></td>
+          <td><%= students.st_addr %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </body>
+  <script></script>
+</html>

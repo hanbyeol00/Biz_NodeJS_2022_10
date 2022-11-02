@@ -14,7 +14,7 @@
 
 ### package.json 설정 변경
 
-- "main":"index" 설정 변경 : `"main" : "./bin/www.js`"
+- "main":"index" 설정 변경 : `"main" : "./bin/www.js"`
 - commonsJS 를 module 형식으로 변경 : `"type": "module"` 항복 추가
 - start script 추가 : script 항목에 다음 추가  
   ` "start": "npm ./bin/www.js"`
