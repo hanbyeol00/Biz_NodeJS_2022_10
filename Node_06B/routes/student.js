@@ -21,7 +21,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/insert", (req, res) => {
-  res.render("student/st_main", { body: "wirte" });
+  res.render("student/st_main", { body: "write", student: {} });
 });
 
 router.post("/insert", (req, res) => {
@@ -51,6 +51,64 @@ router.post("/insert", (req, res) => {
      */
     res.redirect(`/student?st_name=${student.st_name}`);
   });
+});
+
+router.get("/:st_num/detail", (req, res) => {
+  const st_num = req.params.st_num;
+  /**
+   * DB SQL 을 코딩할때 매우 주의할 사항!!!
+   * 아래와 같이 문자열을 직접 코딩하여
+   * WHERE 절을 만들 경우
+   * 예를 들어 S OR 1=1 과 같은 문자열을 st_num 변수에
+   * 담아서 전달을 하면 WHERE 의 조건이 무력화 되는
+   * 명령이 실행된다
+   * 만약 DELETE, UPDATE 명령을 수행할때 이러한 코드를
+   * 작성하면 해커에 의해 DB 가 바로 손상될수 있다
+   *
+   * 이러한 해킹 공격을 DB EnJection 공격이라고 한다
+   * 매우 주의 해야 한다!!
+   */
+  // const sql = `SELECT * FROM tbl_student
+  //             WHERE st_num = ${st_num}`;
+  const sql = "SELECT * FROM tbl_student WHERE st_num = ?";
+  mysql.execute(sql, [st_num], (err, student, field) => {
+    // res.json(student);
+    res.render("student/st_main", { body: "detail", student: student[0] });
+  });
+});
+
+/**
+ * /student/학번/update 로 Request 가 되면
+ * DB 에서 학생점보를 SELECT 하고
+ * st_write 로 보내서 input input box 에 정보를 표시하기
+ */
+router.get("/:st_num/update", (req, res) => {
+  const st_num = req.params.st_num;
+  const sql = "SELECT * FROM tbl_student WHERE st_num = ?";
+  mysql.execute(sql, [st_num], (err, student, field) => {
+    res.render("student/st_main", { body: "write", student: student[0] });
+  });
+});
+router.post("/:st_num/update", (req, res) => {
+  const { st_num, st_name, st_dept, st_grade, st_tel, st_addr } = req.body;
+  console.log(st_name);
+  const sql = `UPDATE tbl_student
+  set st_name = ?,
+  st_dept = ?,
+  st_grade = ?,
+  st_tel = ?,
+  st_addr = ?
+  WHERE st_num = ?`;
+  mysql.execute(
+    sql,
+    [st_name, st_dept, st_grade, st_tel, st_addr, st_num],
+    (err, result, field) => {
+      if (err) {
+        console.log(err);
+      }
+      res.redirect(`/student/${st_num}/detail`);
+    }
+  );
 });
 
 export default router;
