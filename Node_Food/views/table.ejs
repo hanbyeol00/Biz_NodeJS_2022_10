@@ -1,0 +1,20 @@
+<thead>
+  <tr>
+    <th>날짜</th>
+    <th>식품명</th>
+    <th>섭취량</th>
+    <th>칼로리</th>
+    <th>총칼로리</th>
+  </tr>
+</thead>
+<tbody>
+  <% foods.forEach((fd)=>{ %>
+  <tr>
+    <td><%= fd.fd_today %></td>
+    <td><%= fd.fd_name %></td>
+    <td><%= fd.fd_eat %></td>
+    <td><%= fd.fd_kcal %>K</td>
+    <td><%= fd.fd_eat * fd.fd_kcal %>K</td>
+  </tr>
+  <% }) %>
+</tbody>

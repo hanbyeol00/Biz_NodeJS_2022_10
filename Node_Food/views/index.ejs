@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <%- include ("includes/head.ejs") %>
+  </head>
+  <body>
+    <%- include ("includes/header.ejs") %> <% if(body == "table"){ %>
+    <fieldset>
+      <div>
+        <form method="post" class="fd_input">
+          <div>
+            <label for="fd_today">날짜</label>
+            <input
+              name="fd_today"
+              id="fd_today"
+              value="<%= new Date().getFullYear() %>-<%= new Date().getMonth() %>-<%= new Date().getDate() %>"
+              readonly
+            />
+          </div>
+          <div>
+            <label for="fd_name">식품명</label>
+            <input name="fd_name" id="fd_name" placeholder="식품명" />
+          </div>
+          <div>
+            <label for="fd_eat">섭취량</label>
+            <input
+              type="number"
+              name="fd_eat"
+              id="fd_eat"
+              placeholder="섭취량"
+            />
+          </div>
+          <div>
+            <label for="fd_kcal">칼로리</label>
+            <input
+              type="number"
+              name="fd_kcal"
+              id="fd_kcal"
+              placeholder="칼로리"
+            />
+          </div>
+          <div>
+            <label></label>
+            <button type="button" class="btn submit">추가</button>
+          </div>
+        </form>
+      </div>
+    </fieldset>
+    <% } %>
+    <table>
+      <% if(body == "table"){ %><%- include ("./table.ejs") %> <% } %>
+    </table>
+  </body>
+  <script>
+    const btn = document.querySelector(".delete.span");
+    btn?.addEventListener("click", () => {
+      document.location.href = "/delete";
+    });
+  </script>
+</html>
