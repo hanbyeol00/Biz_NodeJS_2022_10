@@ -53,8 +53,8 @@ const TD_CAL_SUM_LIST = `
  *
  */
 const TD_INSERT_OR_UPDATE = `
-    INSERT INTO tbl_todayV2(t_date, t_time, t_content, t_qty, t_cal)
-    VALUES(?,?,?,?,?)
+    INSERT INTO tbl_todayV2(t_seq,t_date, t_time, t_content, t_qty, t_cal)
+    VALUES(?,?,?,?,?,?)
     ON DUPLICATE KEY UPDATE
         t_seq = ?,
         t_date = ?,

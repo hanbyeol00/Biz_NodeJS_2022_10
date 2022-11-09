@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
      * 그래서 ES6 에서 탄생한 새로운 for() 명령문이다
      *      for(요소 of 배열){}
      */
-    for (const [index, tag] of todayInputs) {
+    for (tag of todayInputs) {
       const value = tag.value;
       if (!value) {
         alert(`값을 입력해 주세요\n"${tag.title}"`);
@@ -38,15 +38,4 @@ document.addEventListener("DOMContentLoaded", () => {
     // 유효성 검사가 끝나면 server 로 데이터를 전송하기
     document.querySelector("form.today").submit();
   });
-
-  const tdClickHandlerV2 = (tag) => {
-    const target = tag.target;
-    let parentTD = target.closest("TR");
-    const { t_date, t_time, t_content, t_qty, t_cal } = parentTD.dataset;
-    // let t_date = parentTD.dataset.t_date;
-    console.log(t_date, t_time, t_content, t_qty, t_cal);
-  };
-
-  const foodTable = document.querySelector("table.today");
-  foodTable?.addEventListener("click", tdClickHandlerV2);
 });
