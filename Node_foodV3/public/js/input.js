@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const tForm = document.querySelector("form.today");
   const btnInput = document.querySelector("button.today.input");
   const btnReset = document.querySelector("button.today.reset");
+
   tTable?.addEventListener("click", (tag) => {
     const target = tag.target;
     if (target.tagName === "TD") {
@@ -23,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const tds = pTR.childNodes;
 
       for (const [index, td] of tds.entries()) {
-        // document.quertSelector("input[name='t_date']")
+        // document.querySelector("input[name='t_date']")
         // 배열의 index 를 사용하여 어떤 값을 getter, setter 하는 경우
         // 정확히 원하는 index를 지정이 안되는 경우가 있다
         // inputs[index].value = td.textContent

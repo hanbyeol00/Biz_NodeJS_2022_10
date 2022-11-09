@@ -63,21 +63,29 @@ router.get("/", async (req, res, next) => {
  * ? arr3 = [1,2,3,4,5,9,8,7,6]
  */
 router.post("/", async (req, res) => {
+  const t_seq = req.body.t_seq;
   const params = [...Object.values(req.body), ...Object.values(req.body)];
-  /**
-   * MySQL 의 INSERT ON DUPLICATE KEY SQL 을 사용하여
-   * Insert Or Update 를 실행하려고 하면
-   * parameter 로 사용되는 배열을 두번 나열해주어야 한다
-   * [t_set,t_date,..., t_seq,t_date]
-   * MySQL2 버그로 생각됨
-   */
-  try {
-    await mysqlConn.promise().execute(TD_INSERT_OR_UPDATE, params);
-  } catch (error) {
-    res.write(error);
-    return res.end("Insert or Update SQL 문제 발생");
+  if (params[1]) {
+    try {
+      await mysqlConn.promise().execute(TD_INSERT_OR_UPDATE, params);
+    } catch (error) {
+      res.write(error);
+      return res.end("Insert or Update SQL 문제 발생");
+    }
+    res.redirect("/");
+  } else {
+    mysqlConn.execute(TD_DELETE, t_seq, (e, result, f) => {
+      console.log(e);
+      res.redirect("/");
+    });
+    /**
+     * MySQL 의 INSERT ON DUPLICATE KEY SQL 을 사용하여
+     * Insert Or Update 를 실행하려고 하면
+     * parameter 로 사용되는 배열을 두번 나열해주어야 한다
+     * [t_set,t_date,..., t_seq,t_date]
+     * MySQL2 버그로 생각됨
+     */
   }
-  res.redirect("/");
 });
 
 export default router;
