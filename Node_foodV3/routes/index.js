@@ -74,10 +74,14 @@ router.post("/", async (req, res) => {
     }
     res.redirect("/");
   } else {
-    mysqlConn.execute(TD_DELETE, t_seq, (e, result, f) => {
-      console.log(e);
-      res.redirect("/");
-    });
+    try {
+      console.log(t_seq);
+      await mysqlConn.promise().execute(TD_DELETE, [t_seq]);
+    } catch (error) {
+      res.write(error);
+      return res.end("DELETE SQL 문제 발생");
+    }
+    res.redirect("/");
     /**
      * MySQL 의 INSERT ON DUPLICATE KEY SQL 을 사용하여
      * Insert Or Update 를 실행하려고 하면

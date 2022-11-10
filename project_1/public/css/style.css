@@ -13,6 +13,8 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 header {
   position: fixed;
@@ -36,7 +38,40 @@ li {
   display: inline-block;
   padding: 12px 16px;
   cursor: pointer;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-radius: 30%;
+  transition: 0.3s;
+}
+li:hover {
+  border-left: 3px solid rgb(125, 127, 231);
+}
+
+ul li:nth-of-type(1) {
+  margin-left: 7%;
 }
 ul li:nth-of-type(5) {
   float: right;
+}
+
+ul li:nth-of-type(4) {
+  float: right;
+}
+div.introduce {
+  padding: 10%;
+  text-align: center;
+  font-size: 20px;
+}
+div.download {
+  display: inline;
+  margin-right: 5%;
+  padding: 1.5em;
+  font-size: 15px;
+  font-weight: 600;
+}
+div.download:nth-of-type(2) {
+  margin-left: 42%;
+}
+div.download:hover {
+  cursor: pointer;
 }
