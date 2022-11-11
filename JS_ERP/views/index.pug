@@ -1,0 +1,24 @@
+//- layout.pug 를 확장하여 함께 rendering 하겠다
+extends layout
+
+//- layout.pug 의 block content 항목에 아래의 코드를 붙여서 rendering
+block content
+  table.list
+    thead
+      tr
+        th.list 고객ID
+        th.list 이름
+        th.list 전화번호
+        th.list 담당자명
+        th.list 담당자연락처
+        th.list 매출액합계
+    tbody
+      each buyer in buyers
+        tr
+          td.list= buyer.b_id
+          td.list= buyer.b_comname
+          td.list= buyer.b_comtel
+          td.list= buyer.b_name
+          td.list= buyer.b_tel
+          td.list
+  button.insert 거래처추가

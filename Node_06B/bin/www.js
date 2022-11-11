@@ -4,7 +4,7 @@ import app from "./app.js";
 const server = http.createServer(app);
 const serverOption = {
   host: "localhost",
-  port: 3000,
+  port: 3001,
 };
 server.on("listening", () => {
   console.log(

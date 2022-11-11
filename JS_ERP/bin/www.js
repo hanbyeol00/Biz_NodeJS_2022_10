@@ -1,9 +1,9 @@
 /**
  * http Server Setting
  */
-import http from "http";
-import app from "./app.js";
-import createDebug from "debug";
+import http from 'http';
+import app from './app.js';
+import createDebug from 'debug';
 
 // port number check
 const normalizePort = (val) => {
@@ -21,7 +21,8 @@ const normalizePort = (val) => {
   return false;
 };
 
-const debug = createDebug("node-schoolv2:server");
+
+const debug = createDebug('node-foodv7:server');
 const port = normalizePort(process.env.PORT || "3000");
 
 /**
@@ -29,6 +30,7 @@ const port = normalizePort(process.env.PORT || "3000");
  * http and app(express framework) integration
  */
 const server = http.createServer(app);
+
 
 server.listen(port);
 
@@ -65,27 +67,3 @@ server.on("listening", () => {
   debug("Http Listening on " + bind);
   console.log(`Http Listening on http://localhost:${addr.port}`);
 });
-/**
- * Javascript fetch 함수 비동기 방식으로 실행
- *
- * fetch("http://exapmple.com/user/info")
- * .then(response => response.json())
- * .then(result => console.log(result))
- *
- * 1. WebAPI 인 fetch 함수를 사용하여 example.com 서버에 user 정보(info)를 요청한다
- * 2. Event loop 에 의해 fetch 함수와 1번 response => response.json() 함수와
- *    2번 result => console.log(result) 함수의 코드가 call stack 에 push 된다
- * 3. fetch 함수는 오류가 없으면 즉시 종료되고 call stack 에서 제거된다
- * 4. 서버에서 응답이 오면 1번 함수가 실행되고 response 결과에서 json 데이터를 추출한후 return
- *    1번 함수 코드도 call stack 에서 제거된다
- * 5. return 된 결과를 2번 함수 코드에서 console 에 출력한 후 2번 함수도 call stack 에서 제거된다
- *
- * javascript fetch 함수 동기 방식으로 실행
- *
- * const response = await fetch("http://exapmple.com/user/info")
- * const result = await response.json()
- * console.log(result)
- *
- * 1. ES5 이상에서는 promise 를 사용하여 동기적으로 실행이 가능하다
- * 2. 비동기 Call back 을 사용하지 않고 async, await 조합으로 동기 실행이 가능하다
- */

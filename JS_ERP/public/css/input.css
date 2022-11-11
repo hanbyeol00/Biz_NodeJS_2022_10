@@ -1,0 +1,39 @@
+div.inputbox {
+  display: flex;
+  margin: 10px auto;
+}
+
+div.inputbox input {
+  width: 30%;
+  outline: none;
+}
+div.inputbox label {
+  padding: 8px 10px;
+  width: 35%;
+  font-weight: 900;
+  text-align: right;
+}
+div.btnbox {
+  text-align: center;
+}
+div.btnbox button {
+  padding: 12px 2em;
+  margin: 5px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+div.btnbox button.save {
+  padding: 12px 3em;
+  background-color: blue;
+  color: white;
+}
+div.btnbox button.remove {
+  background-color: orange;
+  color: white;
+}
+div.btnbox button.list {
+  background-color: green;
+  color: white;
+}
