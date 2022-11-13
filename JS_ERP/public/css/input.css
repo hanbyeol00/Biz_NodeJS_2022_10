@@ -37,3 +37,11 @@ div.btnbox button.list {
   background-color: green;
   color: white;
 }
+div.btnbox button.list:hover,
+div.btnbox button.remove:hover,
+div.btnbox button.save:hover {
+  cursor: pointer;
+  background-color: #bbb;
+  color: black;
+  font-weight: 600;
+}

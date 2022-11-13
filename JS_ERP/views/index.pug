@@ -1,7 +1,5 @@
-//- layout.pug 를 확장하여 함께 rendering 하겠다
 extends layout
 
-//- layout.pug 의 block content 항목에 아래의 코드를 붙여서 rendering
 block content
   table.list
     thead
@@ -14,7 +12,7 @@ block content
         th.list 매출액합계
     tbody
       each buyer in buyers
-        tr
+        tr(data-id= `${buyer.b_id}`)
           td.list= buyer.b_id
           td.list= buyer.b_comname
           td.list= buyer.b_comtel

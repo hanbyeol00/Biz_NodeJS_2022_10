@@ -31,9 +31,15 @@ button.insert:hover {
   background-color: #ddd;
   color: black;
 }
+div.div1 {
+  white-space: nowrap;
+}
 table.detail1 {
-  margin-left: 10%;
   margin-top: 2%;
+}
+table.detail1,
+table.detail3 {
+  margin-left: 20%;
 }
 table.detail1,
 table.detail2 {
@@ -41,9 +47,8 @@ table.detail2 {
   border-collapse: collapse;
 }
 table.detail3 {
-  width: 30%;
   border-collapse: collapse;
-  margin: 5px 10%;
+  transform: translateY(-12px);
 }
 th.detail1,
 td.detail1,
@@ -52,29 +57,94 @@ td.detail2,
 th.detail3 {
   border: 1px solid #ccc;
 }
+th.detail1,
+th.detail2,
+th.detail3 {
+  font-weight: 100;
+}
 th.detail1:nth-of-type(1) {
   background-color: #bbb;
-  width: 15%;
-  height: 2em;
   text-align: center;
+  padding: 5px 30px;
+}
+th.detail1:nth-of-type(2) {
+  text-align: left;
+  width: 200px;
 }
 td.detail1:nth-of-type(1) {
   background-color: #bbb;
   text-align: center;
+  padding: 5px 30px;
 }
+
 th.detail2:nth-of-type(1) {
   background-color: #bbb;
   text-align: center;
-  width: 15%;
-  height: 2em;
+  padding: 5px 30px;
+}
+th.detail2:nth-of-type(2) {
+  text-align: left;
+  width: 200px;
 }
 td.detail2:nth-of-type(1) {
+  padding: 5px 30px;
   background-color: #bbb;
   text-align: center;
 }
 th.detail3:nth-of-type(1) {
+  white-space: nowrap;
   background-color: #bbb;
+  padding: 5px 70px;
   text-align: center;
-  height: 2em;
-  width: 15%;
+}
+th.detail3:nth-of-type(2) {
+  width: 438px;
+  text-align: left;
+}
+button.update,
+button.delete {
+  padding: 12px 20px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  font-weight: 600;
+}
+button.update {
+  background-color: orange;
+  margin-left: 30px;
+}
+button.delete {
+  background-color: green;
+  margin-left: 30px;
+  color: white;
+}
+table.data {
+  width: 60%;
+  margin: 15px auto;
+  text-align: center;
+}
+th.data,
+td.data {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  padding: 0.8em;
+}
+button.dataInsert {
+  margin-left: 65%;
+  padding: 12px 20px;
+  border-radius: 5px;
+  background-color: aqua;
+  outline: none;
+  border: none;
+  font-weight: 600;
+}
+button.update:hover,
+button.delete:hover,
+button.dataInsert:hover {
+  background-color: #bbb;
+  color: black;
+  cursor: pointer;
+}
+th.data {
+  background-color: #ddd;
 }

@@ -1,26 +1,65 @@
 extends layout
 
 block content
-  table.detail1
-    thead
-      tr 
-        th.detail1 ID
-        th.detail1(colspan="2") 123
-    tbody 
-      tr
-        td.detail1 이름
-        td.detail1(colspan="2") 123
-    table.detail2
-      thead       
+  div.div1
+    table.detail1
+      thead
+        tr 
+          th.detail1 ID
+          th.detail1.id= buyer.b_id
+      tbody 
         tr
-          th.detail2 전화번호
-          th.detail2(colspan="3") 123
-      tbody
-        tr
-          td.detail2 담당자명
-          td.detail2(colspan="3") 123
-    table.detail3
+          td.detail1 이름
+          td.detail1= buyer.b_comname
+      table.detail2
+        thead       
+          tr
+            th.detail2 전화번호
+            th.detail2= buyer.b_tel
+        tbody
+          tr
+            td.detail2 담당자명
+            td.detail2= buyer.b_name
+    span.btnbox.span
+      button.update 정보수정
+      button.delete 정보삭제
+      table.detail3
+        thead 
+          tr
+            th.detail3 주소
+            th.detail3= buyer.b_addr
+    table.data
       thead 
-        tr
-          th.detail3(colspan="2") 주소
-          th.detail3(colspan="3") 123
+        tr 
+          th.data No.
+          th.data 거래일자
+          th.data 상품명
+          th.data 단가
+          th.data 수량
+          th.data 금액
+      tbody 
+        tr 
+          td.data 1
+          td.data 2022-10-01
+          td.data 아이폰13
+          td.data 1,200,000
+          td.data 10
+          td.data 12,000,000
+        tr 
+          td.data 2
+          td.data 2002-10-03
+          td.data 갤럭시폴드
+          td.data 1,500,000
+          td.data 10
+          td.data 15,000,000
+        tr 
+          td.data 합계
+          td.data 
+          td.data 2
+          td.data 
+          td.data 
+          td.data 
+    div
+      button.dataInsert 주문추가
+    form(method="POST").delete
+      input(name="b_id", style="display:none")
