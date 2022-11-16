@@ -1,0 +1,50 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/css/main.css')
+    link(rel='stylesheet', href='/css/test.css')
+    script(src="/js/main.js")
+  body
+  header 
+    h1 나라상사 ERP 2022
+    p 나라상사 ERP 매입매출관리 v1 
+  nav.main
+    ul
+      li Home
+      li 주문관리
+      li 결제관리
+      li 거래처관리
+      li 상품관리
+      if user
+        //- li= user.nick_name
+        //- `${user.nick_name} 님`
+        li #{user.nick_name} 님 Page
+        li 로그아웃
+      else 
+        <button id="btn-modal">로그인</button>
+  <body>
+    </div>
+    <div id="modal" class="modal-overlay">
+      <div class="modal-window">
+        <div class="title">
+        </div>
+        <div class="close-area">X</div>
+        <div class="content">
+          <input name="user_id", type="text", placeholder="USERNAME"/>
+          <input name="user_pw", type="password", placeholder="PASSWORD" />
+          <button name="login">로그인</button>
+          a(href="/users/join") 회원가입
+        div.login.url
+          span &nbsp;|&nbsp;
+          a(href="/users/loss/username") 아이디
+          span &nbsp;|&nbsp;
+          a(href="/users/loss/password") 비밀번호 찾기
+        </div>
+      </div>
+    </div>
+  section.main
+    block content
+
+  footer 
+    address CopyRight &copy; gksquf6670@gmail.com
