@@ -8,8 +8,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   btnInput?.addEventListener("click", () => {
     const productInputs = document.querySelectorAll("input");
+    let form = document.product;
+    if (form.p_code.value.length !== 13) {
+      alert("상품 Code는 숫자 13자리만 입력가능합니다");
+      pcodeInput.select();
+      return false;
+    }
     for (input of productInputs) {
       const tagTitle = input?.title;
+      const pcode = pcodeInput.value;
       /**
        * input 항목이 많을 경우
        * 유효성 검사가 필요한 항목과
@@ -20,6 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
        * input tag title 속성을 제한적으로 부여하여
        * title 속성이 있는 input 들만 유효성 검사를 하도록 한다
        */
+      // let reg = [/^.{13,13}$/];
+
       if (tagTitle) {
         const value = input.value;
         if (!value) {
@@ -45,13 +54,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   btnCodeCheck?.addEventListener("click", () => {
     // alert("코드 중복 체크하기");
-    let regExpArr = [/^.{13,13}$/];
+
     const pcode = pcodeInput.value;
     if (!pcode) {
       alert("중복검사를 하려면 거래처 코드를 입력하세요");
       pcodeInput.select();
       return false;
-    } else if (!regExpArr.test(pcode)) {
+    }
+    let form = document.product;
+    if (form.p_code.value.length !== 13) {
       alert("상품 Code는 숫자 13자리만 입력가능합니다");
       pcodeInput.select();
       return false;

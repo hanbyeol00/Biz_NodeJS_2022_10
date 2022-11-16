@@ -27,7 +27,7 @@ import productRouter from "../routes/product.js";
 
 // create express framework
 const app = express();
-
+// false
 DB.sequelize.sync({ force: false }).then((dbConn) => {
   console.log(dbConn.options.host, dbConn.config.database, "DB Connection OK");
 });

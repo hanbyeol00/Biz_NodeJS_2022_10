@@ -12,6 +12,7 @@ block content
                 th 대분류
                 th 매입단가
                 th 판매단가
+                th 순이익
         tbody
             each product,index in products
                 tr(data-p_code= `${product.p_code}`)
@@ -20,6 +21,7 @@ block content
                     td= product.p_title 
                     td= product.p_main_cat
                     td= product.p_iprice 
-                    td= product.p_oprice
+                    td= product.p_oprice 
+                    td= Math.ceil(product.p_oprice / 1.1) - product.p_iprice 
     div.button.box 
         button.product.insert 거래처추가

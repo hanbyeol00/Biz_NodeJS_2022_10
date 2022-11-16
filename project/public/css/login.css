@@ -1,0 +1,50 @@
+form.login {
+  width: 100%;
+  height: 100%;
+  margin: 10px auto;
+}
+form.login article.login {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(230%);
+}
+
+form.login div.login.box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: auto;
+}
+
+form.login label,
+form.login input {
+  padding: 8px;
+  margin: 3px;
+}
+div.login.input input:nth-last-child(1) {
+  margin-left: 10px;
+}
+form.login label {
+  color: rgb(52, 152, 219);
+  font-weight: bold;
+}
+form.login input {
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+button.login {
+  margin-left: 5px;
+  padding: 10px 14px;
+}
+div.findPwd {
+  color: blue;
+  cursor: pointer;
+}
+div.findPwd:nth-last-child(2) {
+  margin-left: 72.5%;
+}
+div.findPwd:nth-last-child(1) {
+  margin-right: auto;
+}

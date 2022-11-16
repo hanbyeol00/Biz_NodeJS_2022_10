@@ -13,7 +13,7 @@ block content
         */
         const public_pcode = `#{product.p_code}`
     script(src="/js/product/write.js") 
-    form(method="POST").product.write
+    form(method="POST", name="product").product.write
         fieldset 
             legend 거래처정보 등록
             div.login.input
@@ -43,8 +43,9 @@ block content
                 label 매입단가
                 input(name="p_iprice",value=product.p_iprice, placeholder="매입단가를 입력하세요")
             div
-                label 과세여부
-                input(name="p_tax",value=product.p_tax, placeholder="과세여부를 입력하세요")
+                if product.p_tax
+                    label 과세여부
+                    input(name="p_tax",value=product.p_tax, placeholder="과세여부를 입력하세요")
             div
                 label 판매단가
                 input(name="p_oprice",value=product.p_oprice, placeholder="판매단가를 입력하세요")

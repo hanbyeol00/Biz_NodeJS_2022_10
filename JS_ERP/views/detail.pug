@@ -2,32 +2,32 @@ extends layout
 
 block content
   div.div1
-    table.detail1
+    table.detail
       thead
         tr 
-          th.detail1 ID
-          th.detail1.id= buyer.b_id
+          th.detail ID
+          th.detail.id= buyer.b_id
       tbody 
         tr
-          td.detail1 이름
-          td.detail1= buyer.b_comname
-      table.detail2
+          td.detail 이름
+          td.detail= buyer.b_comname
+      table.detail
         thead       
           tr
-            th.detail2 전화번호
-            th.detail2= buyer.b_tel
+            th.detail 전화번호
+            th.detail= buyer.b_tel
         tbody
           tr
-            td.detail2 담당자명
-            td.detail2= buyer.b_name
+            td.detail 담당자명
+            td.detail= buyer.b_name
     span.btnbox.span
       button.update 정보수정
       button.delete 정보삭제
-      table.detail3
+      table.detail
         thead 
           tr
-            th.detail3 주소
-            th.detail3= buyer.b_addr
+            th.detail 주소
+            th.detail= buyer.b_addr
     table.data
       thead 
         tr 
@@ -63,3 +63,4 @@ block content
       button.dataInsert 주문추가
     form(method="POST").delete
       input(name="b_id", style="display:none")
+      
