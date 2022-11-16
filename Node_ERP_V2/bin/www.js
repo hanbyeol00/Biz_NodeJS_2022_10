@@ -22,7 +22,7 @@ const normalizePort = (val) => {
 };
 
 const debug = createDebug("node-erp:server");
-const port = normalizePort(process.env.PORT || "3001");
+const port = normalizePort(process.env.PORT || "3000");
 
 /**
  * Create HTTP server.
