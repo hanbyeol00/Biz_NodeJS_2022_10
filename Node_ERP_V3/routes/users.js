@@ -54,9 +54,7 @@ router.post("/login", async (req, res) => {
   }
   */
 });
-router.get("/join", (req, res) => {
-  res.render("users/join");
-});
+
 router.get("/logout", (req, res) => {
   delete req.session.user;
   req.session.save(() => {

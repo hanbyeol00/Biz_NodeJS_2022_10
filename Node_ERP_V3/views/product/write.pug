@@ -1,0 +1,55 @@
+extends ../layout 
+
+block content
+    link(rel="stylesheet", href="/css/product/write.css")
+    script.
+        /*
+            buyer.b_code 데이터는 pug 에서는 사용 가능하지만
+            link 로 연결된 script 파일에서는 접근이 불가능하다
+            그래서 script 를 연결(src="...")하기 전에
+            변수 하나 선언 하여 buyer.b_code 값을 보관해 둔다
+            이렇게 선언되고 값이 보관된 변수 bcode 는 link 로 연결된
+            script 에서 사용이 가능하다
+        */
+        const public_pcode = `#{product.p_code}`
+    script(src="/js/product/write.js") 
+    form(method="POST", name="product").product.write
+        fieldset 
+            legend 거래처정보 등록
+            div.login.input
+                label 상품 Code
+                input(name="p_code",value=product.p_code, placeholder="상품 Code를 입력하세요", title="상품 Code")
+                div.product.code 
+                    button(type="button").product.code_check 중복검사
+            div
+                label 상품명
+                input(name="p_title",value=product.p_title, placeholder="상품명을 입력하세요", title="상품명")
+            div
+                label 대분류
+                input(name="p_main_cat",value=product.p_main_cat, placeholder="대분류를 입력하세요", title="대분류")
+            div
+                label 중분류
+                input(name="p_mid_cat",value=product.p_mid_cat, placeholder="중분류를 입력하세요", title="중분류")
+            div
+                label 소분류
+                input(name="p_sub_cat",value=product.p_sub_cat, placeholder="소분류를 입력하세요", title="소분류")
+            div
+                label 제조사
+                input(name="p_industry",value=product.p_industry, placeholder="제조사를 입력하세요", title="제조사")
+            div
+                label 주요매입처
+                input(name="p_buyer",value=product.p_buyer, placeholder="주요매입처를 입력하세요")
+            div
+                label 매입단가
+                input(name="p_iprice",value=product.p_iprice, placeholder="매입단가를 입력하세요")
+            div
+                if product.p_tax
+                    label 과세여부
+                    input(name="p_tax",value=product.p_tax, placeholder="과세여부를 입력하세요")
+            div
+                label 판매단가
+                input(name="p_oprice",value=product.p_oprice, placeholder="판매단가를 입력하세요")
+            div.button.box
+                button(type="button").product.input 저장
+                button(type="button").product.list 리스트로
+                button(type="reset").product.reset 새로작성
