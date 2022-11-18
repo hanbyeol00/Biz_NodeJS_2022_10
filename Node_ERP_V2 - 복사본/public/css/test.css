@@ -73,3 +73,50 @@ div.login.url {
   grid-template-columns: 1fr 1fr 1fr 1fr 1.5fr;
   text-align: center;
 }
+div.content {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+div.content input {
+  padding: 12px 16px;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 0px;
+  border-radius: 10px;
+  border: 2.5px solid white;
+  outline: none;
+  background-color: rgba(255, 255, 255, 1);
+}
+input.user_id {
+  background-image: url("/images/login_id.png");
+  background-size: 18px 18px;
+  background-position: 5px 8px;
+  background-repeat: no-repeat;
+}
+input.user_pw {
+  background-image: url("/images/login_pw.png");
+  background-size: 18px 18px;
+  background-position: 5px 10px;
+  background-repeat: no-repeat;
+}
+div.content input:focus {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+div.content button {
+  margin: 10px 0px;
+  padding: 12px 16px;
+  border-radius: 10px;
+}
+div.content input {
+  padding: 10px 30px;
+}
+button[name="login"] {
+  background-color: white;
+  cursor: pointer;
+}
+div.login,
+a {
+  margin-top: 5px;
+  text-decoration: none;
+  color: white;
+}
