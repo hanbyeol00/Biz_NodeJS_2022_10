@@ -15,7 +15,7 @@ html
       li 주문관리
       li 결제관리
       li 거래처관리
-      li 상품관리
+      li 게시판
       if user
         //- li= user.nick_name
         //- `${user.nick_name} 님`
@@ -33,13 +33,13 @@ html
         <div class="content">
           <input class="user_id" name="user_id", type="text", placeholder="USERNAME"/>
           <input class="user_pw" name="user_pw", type="password", placeholder="PASSWORD" />
-          <button name="login">로그인</button>
+          <button type="button", name="login">로그인</button>
         div.login.url
-          a(href="/users/join") 회원가입
+          a(href="/users/join").join 회원가입
           div.login &nbsp;|&nbsp;
-          a(href="/users/loss/username") 아이디
+          a(href="/users/loss/username").username 아이디
           div.login &nbsp;|&nbsp;
-          a(href="/users/loss/password") 비밀번호 찾기
+          a(href="/users/loss/password").password 비밀번호 찾기
         </div>
       </div>
     </div>

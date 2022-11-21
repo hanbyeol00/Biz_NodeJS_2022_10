@@ -45,14 +45,15 @@ div.consent {
   padding: 20px;
 }
 a.btn_type.btn_default,
-a.btn_type.btn_primary {
+button.btn_type.btn_primary {
   padding: 10px 40px;
   margin: 7px;
   border: 1px solid blue;
   font-size: 20px;
   font-weight: 500;
+  color: white;
 }
-a.btn_type.btn_primary {
+button.btn_type.btn_primary {
   background-color: black;
 }
 a.btn_type.btn_default {

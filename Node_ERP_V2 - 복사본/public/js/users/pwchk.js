@@ -1,12 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
   const pass = document.querySelector("input[name='password']");
-  const passchk = document.querySelector("input[name='password_check']");
-  const pwdResult = document.querySelector("div.input_box.input");
+  const passchk = document.querySelector("input.password_check");
+  const divpass1 = document.querySelector("div.pass.ii");
+  const divpass2 = document.querySelector("div.pass.i");
+  const divCon = document.querySelector("div.pass.div_box");
 
-  pass.addEventListener("change", (e) => {
-    let passNow = e.target.value;
-    if (passNow) {
-      alert(passNow);
+  passchk.addEventListener("input", () => {
+    let passNow = pass.value;
+    let passChkNow = passchk.value;
+    if (passNow !== passChkNow) {
+      divCon.style.display = "block";
+      divpass2.style.display = "none";
+      divpass1.style.display = "block";
+    } else {
+      divpass1.style.display = "none";
+      divpass2.style.display = "block";
     }
   });
 });

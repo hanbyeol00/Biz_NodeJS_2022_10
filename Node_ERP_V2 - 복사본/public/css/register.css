@@ -35,6 +35,10 @@ div.register.tel label {
   flex-shrink: 0;
   padding: 12px 16px;
 }
+div.pass.div_box {
+  width: 25%;
+  margin: auto;
+}
 div.margin {
   width: 100%;
   padding: 10px;
@@ -44,7 +48,6 @@ div.register.preference {
   padding-top: 2%;
   width: 35%;
   margin: auto;
-
   display: block;
 }
 div.register.preference label.main {
@@ -114,4 +117,19 @@ button.btn.join.submit:active {
 }
 span.email {
   margin-top: 20px;
+}
+div.pass.div_box {
+  display: none;
+}
+div.pass.ii {
+  display: none;
+  flex-basis: 100%;
+  font-weight: 600;
+  color: red;
+}
+div.pass.i {
+  display: none;
+  flex-basis: 100%;
+  font-weight: 600;
+  color: rgb(18, 194, 18);
 }

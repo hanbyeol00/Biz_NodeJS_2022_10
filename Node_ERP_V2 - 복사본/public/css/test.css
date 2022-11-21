@@ -115,8 +115,12 @@ button[name="login"] {
   cursor: pointer;
 }
 div.login,
-a {
+a.join,
+a.username,
+a.password {
   margin-top: 5px;
-  text-decoration: none;
   color: white;
+}
+a {
+  text-decoration: none;
 }

@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
         case "Home":
           url = "/";
           break;
-        case "거래처관리":
-          url = "/buyer";
+        case "게시판":
+          url = "/users/bltBrd";
           break;
         case "로그아웃":
           if (!confirm("로그아웃 할까요?")) {

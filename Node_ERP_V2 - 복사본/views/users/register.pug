@@ -1,4 +1,4 @@
-extends ../layout
+extends ../layout1
 
 block content
     link(rel="stylesheet", href="/css/register.css")
@@ -22,7 +22,10 @@ block content
             div.register.password_check
                 label 비밀번호확인
                 div.input_box.input
-                    input(name="password_check",type="password")
+                    input(class="password_check", type="password")
+            div.pass.div_box
+                div.pass.ii 비밀번호가 일치하지 않습니다
+                div.pass.i 비밀번호가 일치합니다
             div.register.nick_name
                 label 닉네임
                 div.input_box.input
