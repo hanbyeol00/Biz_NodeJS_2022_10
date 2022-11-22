@@ -1,3 +1,5 @@
+// 약관화면에 필수항목 체크 확인
+
 document.addEventListener("DOMContentLoaded", () => {
   const chkAll = document.querySelector("input.chk_all");
   const chkbox = document.querySelectorAll("input.terms");

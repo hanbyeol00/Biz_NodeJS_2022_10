@@ -1,3 +1,4 @@
+// 회원가입에서 비밀번호 체크
 document.addEventListener("DOMContentLoaded", () => {
   const pass = document.querySelector("input[name='password']");
   const passchk = document.querySelector("input.password_check");

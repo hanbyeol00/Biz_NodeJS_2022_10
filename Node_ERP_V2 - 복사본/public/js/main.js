@@ -1,3 +1,5 @@
+// nav화면에서 이동과 login 모달창 띄우기
+
 document.addEventListener("DOMContentLoaded", () => {
   const mainNav = document.querySelector("nav.main");
 
@@ -9,14 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
         case "Home":
           url = "/";
           break;
-        case "게시판":
+        case "커뮤니티":
           url = "/users/bltBrd";
-          break;
-        case "로그아웃":
-          if (!confirm("로그아웃 할까요?")) {
-            return false;
-          }
-          url = "/users/logout";
           break;
       }
       document.location.href = url;

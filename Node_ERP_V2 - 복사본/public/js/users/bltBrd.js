@@ -1,3 +1,5 @@
+// 커뮤니티 화면에서 게시판 클릭시 구분을 위한 화면
+
 document.addEventListener("DOMContentLoaded", () => {
   const aNotice = document.querySelector("a.Notice");
   const aAll = document.querySelector("a.all");

@@ -2,27 +2,15 @@ doctype html
 html
   head
     title= title
-    link(rel='stylesheet', href='/css/main.css')
-    link(rel='stylesheet', href='/css/test.css')
+    link(rel='stylesheet', href='/css/nav.css')
     script(src="/js/main.js")
   body
   header 
-    h1 나라상사 ERP 2022
-    p 나라상사 ERP 매입매출관리 v1 
   nav.main
     ul
       li Home
-      li 주문관리
-      li 결제관리
-      li 거래처관리
-      li 게시판
-      if user
-        //- li= user.nick_name
-        //- `${user.nick_name} 님`
-        li #{user.nick_name} 님 Page
-        li 로그아웃
-      else 
-        <button id="btn-modal">로그인</button>
+      li 커뮤니티
+      <button id="btn-modal">로그인</button>
   <body>
     </div>
     <div id="modal" class="modal-overlay">
@@ -45,6 +33,3 @@ html
     </div>
   section.main
     block content
-
-  footer 
-    address CopyRight &copy; gksquf6670@gmail.com
