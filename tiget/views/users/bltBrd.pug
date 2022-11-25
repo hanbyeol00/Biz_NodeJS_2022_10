@@ -1,17 +1,17 @@
 extends ../layout
 
 block content
-    section.main3
-        link(rel="stylesheet", href="/css/users/bitBrd.css")
-        script.
-            let category = "all"
-            //- if(c.category){
-            //-     category = c.category
-            //- }
-            console.log(category)
-        script(src="/js/users/bltBrd.js") 
-        article.bitBrd
-            div.bitBrd.table
+    link(rel="stylesheet", href="/css/users/bitBrd.css")
+    script.
+        let category = "all"
+        //- if(c.category){
+        //-     category = c.category
+        //- }
+        console.log(category)
+    script(src="/js/users/bltBrd.js") 
+    article.bitBrd
+        div.bitBrd.table
+            div.main
                 div.bitBrd.category | 커뮤니티
                     div.category
                         a(href="bltBrd/all" role="button").all 전체보기
@@ -37,6 +37,14 @@ block content
                             td 쏜애플 콘서트 ‘불구경’ 티켓오픈안내 
                             td 2022-11-18
                             td 12
-            aside.bitBrd.aside Side Content
-                div 뭔가 홍보할만한 이미지같은거 작게 넣기 위한칸
-                
+                div.categorysearch
+                    select(name="search") 
+                        option(value="title+content") 제목+내용
+                        option(value="title") 제목
+                        option(value="content") 내용
+                        option(value="writer") 글쓴이
+                    input(type="text")
+                    button 검색
+        aside.bitBrd.aside Side Content
+            div 뭔가 홍보할만한 이미지같은거 작게 넣기 위한칸
+            

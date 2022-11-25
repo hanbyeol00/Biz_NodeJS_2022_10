@@ -10,3 +10,10 @@ html {
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
+header {
+  text-align: center;
+  padding: 2em;
+}
+button:hover {
+  cursor: pointer;
+}

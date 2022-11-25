@@ -20,9 +20,6 @@ router.post("/bltBrd/write", upload.single("c_image_file"), (req, res) => {
   console.log(req.body);
   const fileName = req?.file?.filename;
   const body = req.body;
-  res.json({
-    fileName,
-    body,
-  });
+  res.send(body);
 });
 export default router;

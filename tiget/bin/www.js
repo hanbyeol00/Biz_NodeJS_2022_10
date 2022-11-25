@@ -22,7 +22,7 @@ const normalizePort = (val) => {
 };
 
 const debug = createDebug("tiget:server");
-const port = normalizePort(process.env.PORT || "3001");
+const port = normalizePort(process.env.PORT || "3002");
 
 /**
  * Create HTTP server.

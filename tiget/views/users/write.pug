@@ -2,15 +2,14 @@ extends ../layout
 
 block content
     link(rel="stylesheet", href="/css/users/write.css")
-    script(src="/ckeditor/ckeditor.js") 
-    script(src="/js/users/write.js") 
+    script(src="/js/users/write.js")
     div.write.main
         div.write.insert
             h1.mina 글쓰기
             span.button_box
-                button(type="button").write.insert 등록
+                button(type="submit").write.insert 등록
         div.margin
-        form(method="POST", onsubmit="return false;" enctype="multipart/form-data").category
+        form(method="POST",enctype="multipart/form-data").category
             div.form.title
                 input(type="text", name="title").main.title 
                 select(name="category")
@@ -19,13 +18,12 @@ block content
                     option(value="concert_review") 공연 후기
                     option(value="concert_hall_review") 공연장 후기
                     option(value="freeboard") 자유게시판
-            div.main.text#editor
-                textarea(id="content", cols="30", rows="30", name="main_text") 
+            div.main.text
+                textarea(id="content", cols="30", rows="30", name="main_text").main_text
             div.img
-                <input style="display: block;" onchange="addFile(this);" type="file" name="c_image_file" id="input-multiple-image" multiple>
+                input(style="display: block;" type="file" name="c_image_file" id="input-multiple-image" multiple)
                 div(id="multiple-container")
     script.
-        CKEDITOR.replace( 'content' );
         function readMultipleImage(input) {
             const multipleContainer = document.getElementById("multiple-container")
             

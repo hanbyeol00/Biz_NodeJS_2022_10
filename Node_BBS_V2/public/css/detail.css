@@ -2,6 +2,43 @@ div.bbs.main {
   width: 80%;
   margin: 15px auto;
 }
+
+div.comment_box {
+  text-align: right;
+}
+div.comment_box input {
+  width: 0%;
+  margin: 5px;
+  padding: 12px 16px;
+  border: none;
+  outline: none;
+  background-color: rgb(238, 238, 238);
+  border-radius: 10px;
+  transition: 0.5s;
+}
+div.comment_box button {
+  padding: 12px 16px;
+  border: 1px solid rgb(0, 102, 255);
+  outline: none;
+  border-radius: 10px;
+  color: rgb(0, 102, 255);
+  background-color: rgba(238, 238, 238, 0.3);
+  font-weight: 600;
+}
+input.comment:hover {
+  background-color: #ddd;
+}
+input.comment:focus {
+  background-color: #ddd;
+  width: 23%;
+}
+div.comments.item {
+  padding: 1.2em;
+}
+div.comments.item p {
+  margin: 6px;
+  font-size: 15px;
+}
 article.bbs.detail div.date.writer {
   display: grid;
   grid-template-columns: 2fr 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr;
@@ -43,8 +80,7 @@ div.writer div:nth-of-type(6) {
   text-align: right;
 }
 div.bbs.detail.button.box {
-  width: 245px;
-  margin-left: auto;
+  text-align: right;
   margin-top: 15px;
 }
 div.bbs.detail.button.box button {
@@ -70,4 +106,42 @@ button.bbs.update:hover,
 button.bbs.delete:hover,
 button.bbs.list:hover {
   cursor: pointer;
+}
+article.bbs.comments {
+  width: 80%;
+  margin: 10px auto;
+}
+p.comment.list.box {
+  display: flex;
+}
+
+span.comment {
+  flex: 2;
+  padding: 5px;
+  line-height: 20px;
+}
+span.comment.writer {
+  flex: 1 !important;
+  text-align: center;
+}
+span.comment.content {
+  text-align: left;
+  font-weight: 700;
+}
+span.comment.delete {
+  flex: 1 !important;
+  color: #777;
+  text-align: center;
+  cursor: pointer;
+  font-size: 2em;
+  opacity: 0;
+  transition: opacity 0.7s;
+}
+
+/*
+comment list 가 있는 p box 에 hover 가 되면
+span tag가 
+*/
+p.comment.list.box:hover span.comment.delete {
+  opacity: 1;
 }

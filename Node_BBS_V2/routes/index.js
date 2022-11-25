@@ -1,5 +1,8 @@
 import express from "express";
 import BBS from "../models/tbl_bbs.js";
+import moment from "moment";
+const dateFormat = "YYYY-MM-DD";
+const timeFormat = "HH:mm:ss";
 
 // atlas 접속하기
 
@@ -19,7 +22,14 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/insert", (req, res) => {
-  res.render("write", { bbs: "" });
+  const bbs = new BBS();
+  // moment 를 사용하여 현재 날짜 시각을
+  // 지정한 format 형식의 문자열로 만들어서
+  // 각각 b_date, b_time 칼럼에 추가하라
+  bbs.b_date = moment().format(dateFormat);
+  bbs.b_time = moment().format(timeFormat);
+
+  res.render("write", { bbs });
 });
 
 router.post("/insert", async (req, res) => {
@@ -69,6 +79,77 @@ router.get("/delete/:id", async (req, res) => {
     return res.redirect("/");
   } catch (err) {
     res.json(err);
+  }
+});
+/**
+ * router 의 RequestMethod
+ * POST, PUT, GET, DELETE
+ * POST : 처음 새로운 데이터를 서버로 보내서 INSERT 요청
+ * PUT : 기존의 데이터를 Update 요청
+ * GET: 데이터를 클라이언트에서 요구할때
+ * DELETE : 기존 데이터를 삭제할때
+ */
+router.put("/comment/add", async (req, res) => {
+  const { id, ct_comment } = req.body;
+  const commentData = {
+    ct_comment,
+    ct_writer: "익명",
+    ct_date: moment().format(dateFormat),
+    ct_time: moment().format(timeFormat),
+  };
+
+  console.log(id, ct_comment);
+
+  try {
+    // id 에 해당하는 데이터 찾기
+    const bbs = await BBS.findById(id);
+
+    // 기존의 댓글에 추가하기
+    bbs.b_comments.push(commentData);
+    await bbs.save();
+    return res.json(bbs);
+  } catch (err) {
+    console.log(err);
+    return res.send(err);
+  }
+});
+
+// DELETE Request method 처리할 router
+/**
+ * 댓글 삭제하기
+ * 조건 : 한개의 게시글에 다수의 댓글(배열)이 저장된 상태
+ * 1. bbsId 값으로 게시글을 SELECT 하고
+ * 2. SELECT 된 게시글에 댓글이 있으면
+ * 3. 댓글 배열 list 중에서 commId 값을 갖는 데이터를 삭제하기
+ */
+router.delete("/comment/:bbsId/:commId", async (req, res) => {
+  const { bbsId, commId } = req.params;
+  console.log("BBS", bbsId, "COMMENT", commId);
+  try {
+    // bbsId 에 해당하는 게시글 SELECT
+    const bbs = await BBS.findById(bbsId);
+    // 게시글에서 comment 배열 추출하기
+    const commentList = bbs.b_comments;
+    /**
+     * commentList 데이터중에서 _id 값이 commId 와
+     * 다른 데이터만 추출하여 resultList 에 담아라
+     * 결과적으로 삭제하려고 하는 commId 에 해당하는 데이터는
+     * 삭제 된 채로 resultList 가 만들어 질 것이다
+     */
+    // 배열 리스트중에서 특정한(원하는) 값을 포함하는
+    // 배열을 제거하고 새로운 배열로 복사하기
+    const resultList = commentList.filter((comm) => {
+      return comm._id != commId;
+    });
+    // 게시글의 원래 댓글 리스트와 교체
+    bbs.b_comments = resultList;
+    // 삭제된 리스트가 있는 bbs 를 저장하고
+    await bbs.save();
+    // 그 결과를 다시 Response
+    return res.json(bbs);
+  } catch (err) {
+    console.error(err);
+    return res.json(err);
   }
 });
 

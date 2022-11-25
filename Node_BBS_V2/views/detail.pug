@@ -10,20 +10,33 @@ block content
     div.bbs.main
         article.bbs.detail
             div.title
-                div.lable 제목
+                div.label 제목
                 div.data= bbs.b_subject
             div.content
-                div.lable 내용
+                div.label 내용
                 div.data= bbs.b_content
             div.date.writer
                 div
-                div.lable 작성일자
-                div= bbs.b_date 
-                div.data 작성시각
-                div= bbs.b_time
-                div.lable 작성자
+                div.label 작성일자
+                div.data= bbs.b_date 
+                div.label 작성시각
+                div.data= bbs.b_time
+                div.label 작성자
                 div.data= bbs.b_writer
+            article.bbs.comments
+                div.comments.box
+                    each comm in bbs.b_comments
+                        p.comment.list.box 
+                            span.comment.writer= `${comm.ct_writer || 익명}`
+                            span.comment.content= comm.ct_comment
+                            //- 댓글의 id 를 dataset 로 설정
+                            span.comment.delete(data-id=`${comm._id}`) &times;
+                div.comment_box
+                    input.comment
+                    button.comment 댓글추가
+                
         div.bbs.detail.button.box
             button.bbs.update 수정
             button.bbs.delete 삭제
             button.bbs.list 리스트로
+        

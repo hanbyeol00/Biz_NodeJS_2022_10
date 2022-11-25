@@ -27,7 +27,7 @@ table.bbs.list th {
   vertical-align: middle;
 }
 table.bbs.list td {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   background: #fff;
 }
 table.bbs.list tr,

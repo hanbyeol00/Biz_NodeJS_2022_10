@@ -2,16 +2,14 @@ doctype html
 html
   head
     title= title
-    //- ${pageContext.request.contextPath}
-    //- async="true"
-    link(rel="stylesheet", type="text/css",  href=`/css/main.css`)    
-    link(rel="preconnect" href=`https://fonts.googleapis.com`)
-    link(rel="preconnect" href=`https://fonts.gstatic.com` crossorigin)
+    link(rel="stylesheet", href="/css/main.css")    
+    link(rel="preconnect" href="https://fonts.googleapis.com")
+    link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
     link(href="https://fonts.googleapis.com/css2?family=Rubik+Distressed&display=swap" rel="stylesheet")    
     link(href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet")
-    script(src=`/js/main.js`)
-    script(src=`/js/title.js`)
-    link(rel="stylesheet", href=`/css/footer.css`)
+    script(src="/js/main.js")
+    script(src="/js/title.js")
+    link(rel="stylesheet", href="/css/footer.css")
     link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css' integrity='sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==' crossorigin='anonymous' referrerpolicy='no-referrer')
     link(rel="stylesheet", href=`/css/login.css`)
     script(src=`/js/users/main.js`)
@@ -32,14 +30,14 @@ html
         div.search
           input(placeholder= "공연정보를 입력해주세요")
           a(href="") 
-            img(src="/images/search.png")
+            i(class="fa fa-search", aria-hidden="true")
         div.switch
           label.switch
             input(type="checkbox")
             span.slider.round
         div.user
           a#btn-modal
-            img(src="/images/user.png")
+            i(class="fa fa-user-circle", aria-hidden="true")
       div(id="modal", class="modal-overlay")
         div(class="modal-window")
           div(class="title")
@@ -54,8 +52,9 @@ html
             a(href="/users/loss/username").username 아이디
             div.login &nbsp;|&nbsp;
             a(href="/users/loss/password").password 비밀번호 찾기
-  section.scroll
-    block content      
+            
+    section.scroll
+      block content      
         
-    include includes/footer.pug
+      include includes/footer.pug
       

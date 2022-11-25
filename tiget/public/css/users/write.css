@@ -1,5 +1,6 @@
 /* 글쓰기화면 */
 div.write.main {
+  scroll-snap-align: start;
   width: 80%;
   height: 100%;
   margin: auto;
@@ -8,10 +9,10 @@ div.write.insert {
   display: flex;
 }
 span.button_box {
-  margin-top: 80px;
+  margin-top: 90px;
 }
 h1.mina {
-  margin-top: 80px;
+  margin-top: 90px;
   margin-bottom: 10px;
 }
 span.button_box {
@@ -58,4 +59,7 @@ div.main.text textarea {
   left: 5px;
   color: white;
   text-shadow: 2px 2px 2px black;
+}
+textarea.main_text {
+  outline: none;
 }
