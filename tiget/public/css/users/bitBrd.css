@@ -10,6 +10,7 @@ div.main {
   margin: auto;
 }
 article.bitBrd aside.bitBrd.aside {
+  margin: 5% auto 0 auto;
   flex: 1;
   border: 1px solid #aaa;
 }
@@ -26,11 +27,11 @@ tbody tr.item {
 table.bitBrd.table,
 div.button.box,
 div.bitBrd.category {
-  width: 100%;
+  width: 80%;
   margin: 10px auto;
 }
 div.bitBrd.category {
-  margin: 3% auto 0 auto;
+  margin: 4% auto 0 auto;
   font-size: 16px;
   font-weight: 600;
 }

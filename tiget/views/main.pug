@@ -1,13 +1,11 @@
 extends layout
 
 block content
-    link(rel="stylesheet", href="/css/test.css")
     link(rel="stylesheet", href="https://unpkg.com/swiper/swiper-bundle.min.css")
     script.
         const holiData = !{JSON.stringify(holiData)}
     script(src="/js/header.js")
     script(src="https://unpkg.com/swiper/swiper-bundle.min.js")
-    script(src="/js/test.js") 
     div.main
         div.swiper-container
             div.swiper-wrapper
@@ -40,15 +38,13 @@ block content
                 //-     img(src="", alt="")
                 //- a(href="") 
                 //-     img(src="", alt="")
-        
     include includes/ranking.pug
     include includes/calendar.pug
     include includes/community.pug
-
+            
 
 
     script.
-
         var mySwiper = new Swiper(".swiper-container", {
         // 슬라이드를 버튼으로 움직일 수 있습니다.
         navigation: {

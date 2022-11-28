@@ -12,7 +12,7 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     // bbs 데이터 전체 SELECT
-    const bbsResult = await BBS.find();
+    const bbsResult = await BBS.find().skip(0).limit(10);
     // SELECT 된 bbt 데이터(bbsResult)를
     // bbsList 변수에 담아서 index 에게 res
     return res.render("index", { bbsList: bbsResult });
