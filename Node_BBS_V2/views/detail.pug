@@ -10,11 +10,7 @@ block content
     div.bbs.main
         article.bbs.detail
             div.title
-                div.label 제목
                 div.data= bbs.b_subject
-            div.content
-                div.label 내용
-                div.data= bbs.b_content
             div.date.writer
                 div
                 div.label 작성일자
@@ -23,8 +19,11 @@ block content
                 div.data= bbs.b_time
                 div.label 작성자
                 div.data= bbs.b_writer
+            div.content
+                div.label 내용
+                div.data= bbs.b_content
             article.bbs.comments
-                div.comments.box
+                div.comments.box Comments
                     each comm in bbs.b_comments
                         p.comment.list.box 
                             span.comment.writer= `${comm.ct_writer || 익명}`

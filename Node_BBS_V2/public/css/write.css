@@ -1,6 +1,8 @@
 form.bbs.write {
   width: 80%;
-  margin: 3% auto;
+  height: 100%;
+  margin: auto;
+  background-color: white;
 }
 form.bbs.write fieldset {
   padding: 1.2em;
