@@ -5,6 +5,14 @@ div.bbs.main {
   margin: auto;
   padding-top: 15px;
 }
+article.bbs.detail {
+  width: 80%;
+  margin: auto;
+}
+div.title {
+  padding: 12px;
+}
+
 div.comments.box {
   font-size: 21px;
   font-weight: 600;
@@ -79,10 +87,7 @@ button.bbs.delete:hover,
 button.bbs.list:hover {
   cursor: pointer;
 }
-article.bbs.comments {
-  width: 80%;
-  margin: 10px auto;
-}
+
 p.comment.list.box {
   display: flex;
 }

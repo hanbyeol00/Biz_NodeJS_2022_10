@@ -39,6 +39,7 @@ table.bbs.list td {
   font-size: 16px;
 }
 div.bbs.button.box {
+  width: 90%;
   margin-top: 10px;
   text-align: right;
 }
