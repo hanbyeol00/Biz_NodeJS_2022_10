@@ -1,0 +1,80 @@
+section.concert.content {
+  width: 70%;
+  margin: 110px auto;
+  display: grid;
+  grid-template-rows: 0.5fr 1.7fr 2fr 3fr 3fr;
+}
+
+section.concert.content h1,
+h2 {
+  font-size: 35px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+section.concert.content h4 {
+  font-size: 35px;
+  padding: 10px;
+}
+
+article.concert.banner {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+}
+
+article.concert.ranking {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
+
+article.concert.ranking img {
+  width: 180px;
+  height: 250px;
+  border-radius: 1em;
+  margin-bottom: 10px;
+}
+
+div.concert.title {
+  display: flex;
+  margin: 0px 8px 37px 8px;
+  border-bottom: 1px solid #ccc;
+}
+
+div.concert.sub {
+  margin-left: auto;
+}
+
+/* div.full.ranking {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+} */
+
+div.concert.poster a {
+  display: inline-block;
+  margin: 0 9px;
+  width: 180px;
+}
+
+div.concert.poster div.title {
+  font-size: 20px;
+  font-weight: 900;
+}
+div.concert.poster div.title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+article.concert.ranking button {
+  padding: 10px;
+  font-size: 15px;
+  background: transparent;
+  margin: 20px 7px 0 7px;
+}
+
+/* WEEKLY RANK 화면 */
+
+div.weekly.form {
+  /* background-color: white; */
+  border: 1px solid black;
+}

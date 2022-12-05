@@ -1,0 +1,64 @@
+extends layout
+
+block content
+    script(src="https://unpkg.com/swiper/swiper-bundle.min.js")
+    script(src="/user/main.js")
+    link(rel="stylesheet", href="https://unpkg.com/swiper/swiper-bundle.min.css")
+    link(rel="stylesheet", href="/css/concert.css")
+    section.concert.content 
+        div.concert.header
+            h1 공연
+        article.concert.banner
+            div.image-view
+                img(src="//image.toast.com/aaaaab/ticketlink/TKL_6/TopBanner_개와고양이의시간.jpg")
+            div.image-list
+        
+        article.concert.ranking
+            div.full.ranking
+                div.concert.title
+                    h4 랭킹
+                    div.concert.sub
+                        button.internal ● 국내
+                        button ● 내한
+                div.concert.poster
+                    mixin posterBox
+                        a(href="")
+                            img(src="//image.toast.com/aaaaab/ticketlink/TKL_7/220923_405x500_rb.jpg", alt="")
+                            div
+                                div.title 제목입니다
+                                div.region 장소정보
+                                div.date 공연날짜
+                    +posterBox
+                    +posterBox
+                    +posterBox
+                    +posterBox
+                    +posterBox
+
+                        
+                        
+            div.weekly.ranking
+                div.weekly.form
+                    h2 WEEKLY RANK
+                    div.weekly.detail
+                        mixin rankBox
+                            a(href="")
+                               div 1위
+                                div 임영웅 콘서트
+                        +rankBox
+                        +rankBox
+                        +rankBox
+                        +rankBox
+                        +rankBox
+                          
+
+        article.concert.recommend
+            div.recommend.title
+                h2 추천공연
+                
+            
+        article.concert.region
+            div.region.title
+                h2 지역별
+
+
+                       
