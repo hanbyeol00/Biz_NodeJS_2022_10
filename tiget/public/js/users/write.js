@@ -1,5 +1,3 @@
-// 글쓰기 화면에서 데이터 넘어오는것을 실험용
-
 document.addEventListener("DOMContentLoaded", () => {
   const btn = document.querySelector("button.write.insert");
   const titleInput = document.querySelector("input.main.title");

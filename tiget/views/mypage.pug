@@ -2,15 +2,8 @@ extends layout
 
 block content 
     link(rel="stylesheet" href="/css/mypage.css")
-    link(rel="stylesheet" href="/css/mypage/profile.css")
     link(rel="stylesheet" href="/css/mypage/change_password.css")
     link(rel="stylesheet" href="/css/mypage/favorite_genre.css")
-    link(rel="stylesheet" href="/css/mypage/withdrawal.css")
-    script(src="/js/mypage.js")
-    script(src="/js/mypage/change_password.js") 
-    //- test 용 username 변수
-    - const username = "buddy96@gmail.com";
-    - let users = true
     div.mypage
         div.menu.section            
             nav.menu
@@ -20,20 +13,11 @@ block content
                     li 선호장르 설정
                     li 찜목록
                     li 회원탈퇴   
-        div.info.section
-            .change_password
-                .notice
-                    h2 비밀번호 변경
-                    li 다른 아이디/사이트에서 사용한 적 없는 비밀번호
-                    li 이전에 사용한 적 없는 비밀번호가 안전합니다.                
-                form(method="POST", class="password")
-                    input.password(name="nowPw" placeholder="현재 비밀번호") 
-                    input.passwordinput.new(name="newPw" placeholder="새 비밀번호") 
-                    input.passwordinput.new_check(placeholder="새 비밀번호 확인") 
-                    div.pass.div_box
-                        div.pass.ii 비밀번호가 일치하지 않습니다
-                        div.pass.i 비밀번호가 일치합니다
-                    button.changebutton 확인
-                    button.cancelbutton 취소
-        //- if users
-        //-     include includes/change_password.pug
+        if body == "withdrawal" 
+            include includes/mypage_withdrawal.pug
+        if body == "users"
+            include includes/mypage_profile.pug
+        if body == "favoriteGenre"
+            include includes/favorite_genre.pug
+        if body == "change_password"
+            include includes/change_password.pug

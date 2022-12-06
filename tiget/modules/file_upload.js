@@ -3,7 +3,8 @@ import multer from "multer";
 // nodejs 기본 기능
 import fs from "fs";
 import path from "path";
-// import { v4 } from "uuid";
+import { v4 } from "uuid";
+
 const upload_dir = path.join("public/uploads");
 
 const storageOption = {
@@ -11,7 +12,8 @@ const storageOption = {
   filename: (req, file, callback) => {
     const originalname = file.originalname;
     const fileprefix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-    const uploadFileName = `${fileprefix}-${originalname}`;
+    const newFileName = `${fileprefix}-${originalname}`;
+    const uploadFileName = newFileName.substring(newFileName.length - 255);
 
     callback(null, uploadFileName);
   },
@@ -20,7 +22,7 @@ const storageOption = {
   destination: (req, file, fileup) => {
     // upload_dir 폴더가 없으면 만들어라
     if (!fs.existsSync(upload_dir)) {
-      fs.mkdirSync(upload_dir);
+      fs.mkdirSync(upload_dir, {recursive:true});
     }
     // 실질적으로 파일 업로드를 담당하는 multer 내부의
     // 함수 호출
