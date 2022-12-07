@@ -25,20 +25,23 @@ router.get("/bltBrd/page/:page", async (req, res) => {
   let pageNum = req.params.page; // 요청 페이지 넘버
   let offset = 0;
   const limit = 17;
+  const pageCount = 5;
 
+  // 공지사항을 SELECT
   const lists = await Board.findAll({
     where: { sort_board: "공지사항" },
     limit: 3,
   });
 
+  // 공지사항이 없는 게시물이 몇개인지 SELECT (totalCount = 게시물의 숫자)
   const countSql =
-    "SELECT count(*) FROM board_detail WHERE sort_board NOT IN ('공지사항')";
+    "SELECT * FROM board_detail WHERE sort_board NOT IN ('공지사항')";
   const totalCount = await Board.sequelize.query(countSql, {
     type: QueryTypes.SELECT,
   });
-  const totalPage = Math.ceil(totalCount / limit);
 
-  console.log(totalPage);
+  const totalPage = Math.ceil(totalCount.length / limit); // 총 페이지 숫자
+  const pageGroup = Math.ceil(Number(pageNum) / pageCount);
 
   if (pageNum > 1) {
     offset = limit * (pageNum - 1);
@@ -54,22 +57,73 @@ router.get("/bltBrd/page/:page", async (req, res) => {
     lists,
     boardsList,
     body: "all",
+    totalPage,
+    pageGroup,
+    pageNum,
   });
 });
 
-router.get("/bltBrd/Notice", async (req, res) => {
-  const lists = await Board.findAll({ where: { sort_board: "공지사항" } });
-  res.render("users/bltBrd", { lists, body: "Notice" });
+router.get("/bltBrd/Notice/page/:page", async (req, res) => {
+  let pageNum = req.params.page;
+  const limit = 17;
+  let offset = 0;
+  const pageCount = 5;
+
+  if (pageNum > 1) {
+    offset = limit * (pageNum - 1);
+  }
+
+  const lists = await Board.findAll({
+    where: { sort_board: "공지사항" },
+    limit: limit,
+    offset: offset,
+  });
+
+  const totalPage = Math.ceil(lists.length / limit); // 총 페이지 숫자
+  const pageGroup = Math.ceil(pageNum / pageCount);
+
+  res.render("users/bltBrd", {
+    lists,
+    body: "Notice",
+    pageNum,
+    totalPage,
+    pageGroup,
+  });
 });
-router.get("/bltBrd/category/:category", async (req, res) => {
+router.get("/bltBrd/category/:category/page/:page", async (req, res) => {
   const category = req.params.category;
-  console.log(category);
+  let pageNum = req.params.page;
+  const limit = 17;
+  let offset = 0;
+  const pageCount = 5;
+
+  if (pageNum > 1) {
+    offset = limit * (pageNum - 1);
+  }
+
   const lists = await Board.findAll({
     where: { sort_board: "공지사항" },
     limit: 3,
   });
-  const boards = await Board.findAll({ where: { sort_board: category } });
-  res.render("users/bltBrd", { lists, boards, body: category });
+  const pages = await Board.findAll({
+    where: { sort_board: category },
+  });
+  const boards = await Board.findAll({
+    where: { sort_board: category },
+    limit: limit,
+    offset: offset,
+  });
+  const totalPage = Math.ceil(pages.length / limit); // 총 페이지 숫자
+  const pageGroup = Math.ceil(pageNum / pageCount);
+  console.log(pageGroup);
+  res.render("users/bltBrd", {
+    lists,
+    boards,
+    body: category,
+    pageNum,
+    totalPage,
+    pageGroup,
+  });
 });
 router.get("/bltBrd/detail", (req, res) => {
   res.render("users/detail");

@@ -10,6 +10,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const liFreeboard = document.querySelector("li.freeboard");
   const mainNav = document.querySelector("nav.main");
   const bltBrdList = document.querySelector("table.bltBrd.table");
+  const pagebox = document.querySelector("div.pagecon");
+  const pagePrev = document.querySelector("button.pagePrev");
+  const pageNext = document.querySelector("button.pageNext");
+  const pageFirst = document.querySelector("button.pagefirst");
+  const pageEnd = document.querySelector("button.pageEnd");
 
   bltBrdList?.addEventListener("click", (tag) => {
     const td = tag.target;
@@ -19,28 +24,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  const baseURL = "/users/bltBrd";
+  const data = [
+    { name: "전체보기", url: `${baseURL}` },
+    { name: "공지사항", url: `${baseURL}/Notice/page/1` },
+    { name: "공연후기", url: `${baseURL}/category/공연후기/page/1` },
+    { name: "공연장후기", url: `${baseURL}/category/공연장후기/page/1` },
+    { name: "자유게시판", url: `${baseURL}/category/자유게시판/page/1` },
+  ];
+
   mainNav?.addEventListener("click", (tag) => {
     const navItem = tag.target;
     if (navItem?.tagName === "LI") {
-      let data = [
-        "전체보기",
-        "공지사항",
-        "공연후기",
-        "공연장후기",
-        "자유게시판",
-      ];
-      let href = [
-        "/users/bltBrd",
-        "/users/bltBrd/Notice",
-        "/users/bltBrd/category/공연후기",
-        "/users/bltBrd/category/공연장후기",
-        "/users/bltBrd/category/자유게시판",
-      ];
-      data.forEach((data, index) => {
-        switch (navItem.textContent) {
-          case data:
-            document.location.href = href[index];
-            break;
+      data.forEach((data) => {
+        if (data.name === navItem.textContent) {
+          document.location.href = data.url;
         }
       });
     }
@@ -66,4 +64,61 @@ document.addEventListener("DOMContentLoaded", () => {
     liFreeboard.style.backgroundColor = "gray";
     liFreeboard.style.color = "white";
   }
+
+  const pageCount = 5;
+  let lastNumber = Number(pageGroup) * pageCount; // 최대 페이지
+
+  let firstNumber = lastNumber - (pageCount - 1);
+  // 처음 페이지는 최대페이지 -4
+
+  if (lastNumber > Number(totalPage)) {
+    if (totalPage == 0) {
+      totalPage = 1;
+    }
+    // 최대 페이지가 데이터베이스의 페이지보다 많을경우
+    // 최대 페이지를 데이터베이스의 페이지와 같게하라
+    lastNumber = Number(totalPage);
+  }
+
+  (() => {
+    for (let i = Number(firstNumber); i <= Number(lastNumber); i++) {
+      const pageButton = document.createElement("BUTTON");
+      pageButton.className = `pageNumber`;
+      pageButton.setAttribute(`id`, `${i}`);
+      pageButton.textContent = `${i}`;
+      pagebox.appendChild(pageButton);
+    }
+  })();
+  pagebox?.addEventListener("click", (e) => {
+    const buttonContent = e.target;
+    if (buttonContent.tagName === "BUTTON") {
+      document.location.href = `${buttonContent.id}`; // 페이지 버튼 눌렀을때 페이지 이동
+    }
+  });
+  pagePrev?.addEventListener("click", () => {
+    if (currentPage > 1) {
+      const pageNum = currentPage - 1;
+      document.location.href = `${pageNum}`;
+    } else {
+      alert("첫번째 페이지입니다.");
+    }
+  });
+  pageNext?.addEventListener("click", () => {
+    if (currentPage < Number(totalPage)) {
+      const pageNum = Number(currentPage) + 1;
+      document.location.href = `${pageNum}`;
+    } else {
+      alert("마지막 페이지입니다.");
+    }
+  });
+  pageFirst?.addEventListener("click", () => {
+    document.location.href = `1`;
+  });
+  pageEnd?.addEventListener("click", () => {
+    document.location.href = `${totalPage}`;
+  });
+  const pagebtn = document.querySelector(`button[id='${currentPage}']`);
+  (() => {
+    pagebtn.style.backgroundColor = "gray";
+  })();
 });
