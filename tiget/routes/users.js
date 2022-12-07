@@ -1,8 +1,9 @@
-import express from "express";
+import express, { query } from "express";
 import upload from "../modules/file_upload.js";
 import DB from "../models/index.js";
 import moment from "moment";
-import fs from "fs";
+import sequelize from "sequelize";
+import { QueryTypes } from "sequelize";
 const dateFormat = "YYYY-MM-DD";
 const timeFormat = "HH:mm:ss";
 const Board = DB.models.board_detail;
@@ -18,23 +19,42 @@ router.get("/join/register", (req, res) => {
   res.render("users/register");
 });
 router.get("/bltBrd", async (req, res) => {
+  res.redirect("/users/bltBrd/page/1");
+});
+router.get("/bltBrd/page/:page", async (req, res) => {
+  let pageNum = req.params.page; // 요청 페이지 넘버
+  let offset = 0;
+  const limit = 17;
+
   const lists = await Board.findAll({
     where: { sort_board: "공지사항" },
     limit: 3,
   });
-  const boards = await Board.findAll();
+
+  const countSql =
+    "SELECT count(*) FROM board_detail WHERE sort_board NOT IN ('공지사항')";
+  const totalCount = await Board.sequelize.query(countSql, {
+    type: QueryTypes.SELECT,
+  });
+  const totalPage = Math.ceil(totalCount / limit);
+
+  console.log(totalPage);
+
+  if (pageNum > 1) {
+    offset = limit * (pageNum - 1);
+  }
+  const sql = `SELECT * FROM board_detail ORDER BY sort_board = "공지사항" asc limit ${limit} offset ${offset}`;
+  const boards = await Board.sequelize.query(sql, {
+    type: QueryTypes.SELECT,
+  });
   const boardsList = boards.filter((category) => {
     return category.sort_board != "공지사항";
   });
-  res.render("users/bltBrd", { lists, boardsList, body: "all" });
-});
-router.get("/bltBrd/page/:page", async (req, res) => {
-  const data = await Board.findAndCountAll({
-    limit: 2,
-    offset: 1,
-    where: { title: "123" }, // conditions
+  res.render("users/bltBrd", {
+    lists,
+    boardsList,
+    body: "all",
   });
-  res.json(data);
 });
 
 router.get("/bltBrd/Notice", async (req, res) => {
