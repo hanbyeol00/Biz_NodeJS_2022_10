@@ -4,6 +4,7 @@ import DB from "../models/index.js";
 import moment from "moment";
 import sequelize from "sequelize";
 import { QueryTypes } from "sequelize";
+import { v4 } from "uuid";
 const dateFormat = "YYYY-MM-DD";
 const timeFormat = "HH:mm:ss";
 const Board = DB.models.board_detail;
@@ -21,17 +22,20 @@ router.get("/join/register", (req, res) => {
 router.get("/bltBrd", async (req, res) => {
   res.redirect("/users/bltBrd/page/1");
 });
+
 router.get("/bltBrd/page/:page", async (req, res) => {
   let pageNum = req.params.page; // 요청 페이지 넘버
   let offset = 0;
   const limit = 17;
   const pageCount = 5;
-
   // 공지사항을 SELECT
   const lists = await Board.findAll({
     where: { sort_board: "공지사항" },
     limit: 3,
   });
+
+  const updateSql = `update board_detail set b_Views = b_Views +1 where seq = 1`;
+  await Board.sequelize.query(updateSql, { type: QueryTypes.UPDATE });
 
   // 공지사항이 없는 게시물이 몇개인지 SELECT (totalCount = 게시물의 숫자)
   const countSql =
@@ -125,6 +129,7 @@ router.get("/bltBrd/category/:category/page/:page", async (req, res) => {
     pageGroup,
   });
 });
+
 router.get("/bltBrd/detail", (req, res) => {
   res.render("users/detail");
 });
@@ -146,6 +151,7 @@ router.post(
       b_img: req?.file?.filename,
       b_nickname: "익명",
       b_update_date,
+      b_Views: 0,
     };
     try {
       await Board.create(item);
@@ -157,40 +163,39 @@ router.post(
   }
 );
 
+// 로그인 구현
 router.post("/login", async (req, res) => {
   const { user_id, user_pw } = req.body;
   console.log({
     user_id,
     user_pw,
   });
-  const userInfo = await User.findAll({ where: { username: user_id } });
-  const pw = userInfo.password;
-  console.log(userInfo);
-  if (user_pw === pw) {
-    req.session.user = {
-      username: user_id,
-      real_name: userInfo.realname,
-      nick_name: userInfo.nickname,
-      user_role: userInfo.level,
-    };
-    req.session.save(() => {
-      res.redirect("/");
-    });
+  const userInfo = await User.findByPk(user_id);
+  // console.log(userInfo);
+  if (userInfo) {
+    const pw = userInfo.password;
+    if (pw !== user_pw) {
+      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+      res.write("<script>alert('비밀번호가 틀렸습니다')</script>");
+      return res.write("<script>location.href='/main'</script>");
+    }
   } else {
-    const loginFail = {
-      status: "USERNAME",
-    };
-    res.redirect("http://localhost:3002/main");
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+    res.write("<script>alert('회원정보가 없습니다')</script>");
+    return res.write("<script>location.href='/main'</script>");
   }
+  req.session.user = userInfo;
+  req.session.save(() => {
+    res.redirect("/");
+  });
 });
 
+// 로그아웃 구현
 router.get("/logout", (req, res) => {
   var session = req.session;
   try {
     if (session.user) {
-      req.session.destroy((err) => {
-        if (err) console.error(err);
-      });
+      req.session.destroy();
     }
   } catch (err) {
     return console.error(err);
@@ -198,6 +203,7 @@ router.get("/logout", (req, res) => {
   return res.redirect("/main");
 });
 
+// 회원가입 구현
 router.post("/join/register", async (req, res) => {
   const joinInfo = req.body;
   joinInfo.level = 3;

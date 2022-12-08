@@ -10,30 +10,40 @@ router.get("/", (req, res) => {
   res.render("mypage", { body: "users", users: {} });
 });
 router.post("/", upload.single("b_upfile"), async (req, res) => {
-  // const profile = req.file.filename;
-  console.log(req.body);
-  // const emailID = req.body.username;
-
-  const upLoadDirect = path.join("public/uploads");
-  // console.log(emailID);
-
+  const profile = req.file.filename;
+  const emailID = req.body.username;
+  // console.log(profile, emailID);
+  const upLoadDirect = path.join("public/uploads/");
+  let user;
   try {
-    const profileIMG = await userDB.update(
-      { profile_image: profile },
-      { where: { username: emailID } }
-    );
-    res.redirect("/", { profileIMG });
+    user = await userDB.findOne({ where: { username: emailID } });
   } catch (err) {
     console.error(err);
   }
+  // console.log(user.profile_image);
 
-  // try {
-  // const delImg = path.join(upLoadDirect, profile)
-  // fs.statSync(delImg)
-  // fs.unlinkSync(delImg)
-  // } catch(err){
-  // console.log("에러")
-  // }
+  console.log(upLoadDirect + user.profile_image);
+  try {
+    fs.existsSync(upLoadDirect + user.profile_image);
+    fs.unlinkSync(upLoadDirect + user.profile_image);
+  } catch (err) {
+    console.log(err);
+  }
+
+  try {
+    await userDB.update(
+      { profile_image: profile },
+      { where: { username: emailID } }
+    );
+  } catch (err) {
+    console.error(err);
+  }
+  try {
+    user = await userDB.findOne({ where: { username: emailID } });
+    return res.render("mypage", { body: "users", user });
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 export default router;

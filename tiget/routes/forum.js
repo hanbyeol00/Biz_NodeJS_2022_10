@@ -67,15 +67,21 @@ router.post("/board/:boardSeq", async (req, res) => {
 
 router.get("/:loadFor", async (req, res) => {
   let loadFor = req.params.loadFor;
-  // console.log(loadFor);
-  let list = loadFor.substring(1, loadFor.length);
-  // console.log(list);
-
   try {
     const boardResult = await Board.findAll({
-      where: { sort_board: list },
+      where: { sort_board: loadFor },
       limit: 14,
+      include: "f_reply",
     });
+    let replies = [];
+    for (let i = 0; i < boardResult.length; i++) {
+      replies.push(boardResult[i].f_reply.length);
+    }
+
+    boardResult.concat(replies);
+
+    // console.log(boardResult);
+
     return res.json(boardResult);
   } catch (err) {
     console.error(err);

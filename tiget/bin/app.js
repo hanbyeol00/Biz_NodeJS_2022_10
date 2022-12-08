@@ -15,7 +15,6 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import expressSession from "express-session";
-// import MySQLStore from "express-mysql-session";
 // MySQL Sequelize
 import DB from "../models/index.js";
 
@@ -27,15 +26,11 @@ import usersRouter from "../routes/users.js";
 import mypageRouter from "../routes/mypage.js";
 import concertRouter from "../routes/concert.js";
 import listRouter from "../routes/list.js";
-import spcdeInfo from "../routes/spcdeInfo.js";
 import forum from "../routes/forum.js";
 import profile from "../routes/profile.js";
 import favgGenreRouter from "../routes/favorite_genre.js";
-// import perdisPeriod from "../routes/perdisPeriod.js";
-// import perdisArea from "../routes/perdisArea.js";
-// import perdisRealm from "../routes/perdisRealm.js";
-// import perdisSeq from "../routes/perdisSeq.js";
-// import prfrList from "../routes/prfrList.js";
+import spcdeInfo from "../routes/spcdeInfo.js";
+
 // import prfrDetail from "../routes/prfrDetail.js";
 
 // create express framework
@@ -51,7 +46,7 @@ const sessionOption = {
   resave: false, // 매번 session 새로 작성할 것인가, 성능상 문제로 false 권장
   saveUninitialized: false, // 모든 session 을 저장할 것인가, 성능상 문제로 false 권장
   httpOnly: false,
-  originalMaxAge: 1000 * 600, // 1000밀리초 * 60 = 1분
+  originalMaxAge: 1000 * 60, // 1000밀리초 * 60 = 1분
 };
 app.use(expressSession(sessionOption));
 
@@ -69,7 +64,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join("public")));
 
-app.use("/", (req, res, next) => {
+app.use("/", async (req, res, next) => {
+  if (await req.session.uuid) {
+    app.locals.uuid = req.session?.uuid;
+  } else {
+    delete app.locals.uuid;
+  }
+  console.log("유저 고유번호", req.session.uuid);
   // app.locals : ejs, pug 등 view Template 에서 서버의
   // global 데이터에 접근하는 통로
   if (req.session.user) {
@@ -80,7 +81,6 @@ app.use("/", (req, res, next) => {
     // 로그아웃이 되었거나, 어떤이유로 session 에 로그인 정보가 없으면
     // global 데이터에서 user 데이터 제거
     delete app.locals.user;
-    // ** 로그아웃 후 뒤로가기 방지하는 방법?
   }
 
   // console.log("유저정보", req.session.user);
@@ -95,20 +95,12 @@ app.use("/main", mainRouter);
 app.use("/detail", detailRouter);
 app.use("/users", usersRouter);
 app.use("/mypage", mypageRouter);
-app.use("/holiday", spcdeInfo);
-app.use("/mypage", mypageRouter);
 app.use("/concert", concertRouter);
 app.use("/list", listRouter);
 app.use("/forum", forum);
 app.use("/profile", profile);
 app.use("/favoriteGenre", favgGenreRouter);
-
-// app.use("/period", perdisPeriod);
-// app.use("/area", perdisArea);
-// app.use("/realm", perdisRealm);
-// app.use("/seq", perdisSeq);
-// app.use("/prfrlist", prfrList);
-// app.use("/prfrdetail", prfrDetail);
+app.use("/holiday", spcdeInfo);
 // app.use("/spotify", spotifyRouter);
 
 // catch 404 and forward to error handler

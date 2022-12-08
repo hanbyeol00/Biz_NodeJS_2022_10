@@ -59,7 +59,5 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch(`/forum/board/:${boardSeq}`, option)
       .then((res) => res.json())
       .then((replies) => ShowReply(replies));
-    replyInput.value = "";
-    replyInput.focus();
   });
 });
