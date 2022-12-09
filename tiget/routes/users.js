@@ -34,9 +34,6 @@ router.get("/bltBrd/page/:page", async (req, res) => {
     limit: 3,
   });
 
-  const updateSql = `update board_detail set b_Views = b_Views +1 where seq = 1`;
-  await Board.sequelize.query(updateSql, { type: QueryTypes.UPDATE });
-
   // 공지사항이 없는 게시물이 몇개인지 SELECT (totalCount = 게시물의 숫자)
   const countSql =
     "SELECT * FROM board_detail WHERE sort_board NOT IN ('공지사항')";
@@ -134,12 +131,17 @@ router.get("/bltBrd/detail", (req, res) => {
   res.render("users/detail");
 });
 router.get("/bltBrd/write", (req, res) => {
+  console.log(req.session.user);
   res.render("users/write");
 });
+let nickname = 0;
 router.post(
   "/bltBrd/write",
   upload.single("c_image_file"),
   async (req, res) => {
+    if (req.session.user) {
+      nickname = req.session.user.nickname;
+    }
     const { b_title, sort_board, b_content } = req.body;
     const date = moment().format(dateFormat);
     const time = moment().format(timeFormat);
@@ -149,7 +151,7 @@ router.post(
       sort_board,
       b_content,
       b_img: req?.file?.filename,
-      b_nickname: "익명",
+      b_nickname: nickname || "익명",
       b_update_date,
       b_Views: 0,
     };
@@ -186,7 +188,7 @@ router.post("/login", async (req, res) => {
   }
   req.session.user = userInfo;
   req.session.save(() => {
-    res.redirect("/");
+    res.redirect("/main");
   });
 });
 

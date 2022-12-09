@@ -21,9 +21,8 @@ const chkSession = (req, res, next) => {
   }
 };
 
-router.get("/", chkSession, (req, res) => {
-  const user = req.session.user;
-  return res.render("mypage", { body: "users", users: {} });
+router.get("/", chkSession, async (req, res) => {
+  return res.redirect("/profile");
 });
 
 router.get("/delete", chkSession, (req, res) => {
@@ -82,18 +81,21 @@ router.get("/delete/:username", chkSession, async (req, res) => {
     return res.send("예기치 않은 문제가 생겼습니다. 다시 시도해주세요.");
   }
 });
-router.get("/pwChange/:username", async (req, res) => {
-  const username = req.params.username;
+router.get("/pwChange", chkSession, async (req, res) => {
+  const user = req.session.user.username;
   try {
-    const result = await Users.findByPk(username);
-    res.render("mypage", { body: "change_password", user: result });
+    const result = await Users.findByPk(user);
+    res.render("mypage", {
+      body: "change_password",
+      user: result,
+    });
   } catch (err) {
     res.json(err);
     console.error(err);
   }
 });
-router.post("/pwChange/:username", async (req, res) => {
-  const username = req.params.username;
+router.post("/pwChange", chkSession, async (req, res) => {
+  const user = req.session.user.username;
   const { nowPw, newPw } = req.body;
   try {
     const pwChk = await Users.findOne({ where: { password: nowPw } });
@@ -109,12 +111,15 @@ router.post("/pwChange/:username", async (req, res) => {
     await Users.update(
       { password: newPw },
       {
-        where: { username: username },
+        where: { username: user },
       }
     );
     res.redirect("/mypage");
   } catch (err) {
     console.error(err);
   }
+});
+router.get("/favoriteGenre", (req, res) => {
+  res.redirect("/favoriteGenre");
 });
 export default router;

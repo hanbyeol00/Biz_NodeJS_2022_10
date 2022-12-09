@@ -9,8 +9,8 @@ router.get("/", async (req, res) => {
   // const favorite_genre = await IntGen.findAll({
   //   where: { username: uservalue },
   // });
-
-  res.render("mypage", { body: "favoriteGenre" });
+  const user = req.session.user.username;
+  res.render("mypage", { body: "favoriteGenre", userId: user });
 });
 
 router.post("/", async (req, res) => {

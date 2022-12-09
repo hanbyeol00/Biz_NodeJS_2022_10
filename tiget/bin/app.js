@@ -65,12 +65,6 @@ app.use(cookieParser());
 app.use(express.static(path.join("public")));
 
 app.use("/", async (req, res, next) => {
-  if (await req.session.uuid) {
-    app.locals.uuid = req.session?.uuid;
-  } else {
-    delete app.locals.uuid;
-  }
-  console.log("유저 고유번호", req.session.uuid);
   // app.locals : ejs, pug 등 view Template 에서 서버의
   // global 데이터에 접근하는 통로
   if (req.session.user) {
