@@ -4,7 +4,6 @@ import DB from "../models/index.js";
 import moment from "moment";
 import sequelize from "sequelize";
 import { QueryTypes } from "sequelize";
-import { v4 } from "uuid";
 const dateFormat = "YYYY-MM-DD";
 const timeFormat = "HH:mm:ss";
 const Board = DB.models.board_detail;
@@ -22,12 +21,12 @@ router.get("/join/register", (req, res) => {
 router.get("/bltBrd", async (req, res) => {
   res.redirect("/users/bltBrd/page/1");
 });
-
 router.get("/bltBrd/page/:page", async (req, res) => {
   let pageNum = req.params.page; // 요청 페이지 넘버
   let offset = 0;
   const limit = 17;
   const pageCount = 5;
+
   // 공지사항을 SELECT
   const lists = await Board.findAll({
     where: { sort_board: "공지사항" },
@@ -51,6 +50,7 @@ router.get("/bltBrd/page/:page", async (req, res) => {
   const boards = await Board.sequelize.query(sql, {
     type: QueryTypes.SELECT,
   });
+  console.log(boards);
   const boardsList = boards.filter((category) => {
     return category.sort_board != "공지사항";
   });
@@ -131,7 +131,6 @@ router.get("/bltBrd/detail", (req, res) => {
   res.render("users/detail");
 });
 router.get("/bltBrd/write", (req, res) => {
-  console.log(req.session.user);
   res.render("users/write");
 });
 let nickname = 0;
@@ -168,10 +167,10 @@ router.post(
 // 로그인 구현
 router.post("/login", async (req, res) => {
   const { user_id, user_pw } = req.body;
-  console.log({
-    user_id,
-    user_pw,
-  });
+  // console.log({
+  //   user_id,
+  //   user_pw,
+  // });
   const userInfo = await User.findByPk(user_id);
   // console.log(userInfo);
   if (userInfo) {
@@ -187,6 +186,7 @@ router.post("/login", async (req, res) => {
     return res.write("<script>location.href='/main'</script>");
   }
   req.session.user = userInfo;
+  console.log(req.session.user);
   req.session.save(() => {
     res.redirect("/main");
   });
@@ -228,4 +228,19 @@ router.post("/join/register", async (req, res) => {
   }
   return res.redirect("/main");
 });
+
+router.get("/join/register/:email", async (req, res) => {
+  const email = req.params.email;
+  try {
+    const username = await User.findByPk(email);
+    if (username) {
+      return res.json({ status: "YES", message: "이미 사용중인 이메일입니다" });
+    } else {
+      return res.json({ status: null, message: "사용가능한 이메일입니다" });
+    }
+  } catch (err) {
+    res.send("SQL 오류");
+  }
+});
+
 export default router;

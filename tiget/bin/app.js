@@ -30,7 +30,6 @@ import forum from "../routes/forum.js";
 import profile from "../routes/profile.js";
 import favgGenreRouter from "../routes/favorite_genre.js";
 import spcdeInfo from "../routes/spcdeInfo.js";
-
 // import prfrDetail from "../routes/prfrDetail.js";
 
 // create express framework
@@ -41,12 +40,11 @@ DB.sequelize.sync({ force: false }).then((dbConn) => {
 });
 
 const sessionOption = {
-  key: "tiget", // session ID(key)
   secret: "12345", // session 암호화 할때 사용할 비번
   resave: false, // 매번 session 새로 작성할 것인가, 성능상 문제로 false 권장
   saveUninitialized: false, // 모든 session 을 저장할 것인가, 성능상 문제로 false 권장
-  httpOnly: false,
-  originalMaxAge: 1000 * 60, // 1000밀리초 * 60 = 1분
+  // httpOnly: false,
+  originalMaxAge: 1000 * 600 * 10, // 1000밀리초 * 60 = 1분
 };
 app.use(expressSession(sessionOption));
 
@@ -64,7 +62,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join("public")));
 
-app.use("/", async (req, res, next) => {
+app.use("/", (req, res, next) => {
   // app.locals : ejs, pug 등 view Template 에서 서버의
   // global 데이터에 접근하는 통로
   if (req.session.user) {

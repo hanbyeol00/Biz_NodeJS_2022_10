@@ -2,18 +2,19 @@ doctype html
 html
   head
     title= title
-    link(rel="stylesheet", href="/css/main.css")    
+    link(rel="stylesheet", href="/css/main.css")
     link(rel="preconnect" href="https://fonts.googleapis.com")
     link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
-    link(href="https://fonts.googleapis.com/css2?family=Rubik+Distressed&display=swap" rel="stylesheet")    
-    link(href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet")
+    link(href="https://fonts.googleapis.com/css2?family=Rubik+Distressed&display=swap" rel="stylesheet")
+    link(href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic&display=swap" rel="stylesheet")
+    script(src="/js/main.js")
+    script(src="/js/title.js")
     link(rel="stylesheet", href="/css/footer.css")
     link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css' integrity='sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==' crossorigin='anonymous' referrerpolicy='no-referrer')
     link(rel="stylesheet", href=`/css/login.css`)
-    script(src="/js/main.js")
-    script(src="/js/title.js")
     script(src=`/js/users/main.js`)
-    script(src="/js/login.js") 
+    script(src="/js/login.js")
+    script(src="/js/header.js")
   body
     header
       div.left
@@ -23,9 +24,9 @@ html
         div.menu
           ul
             li 
-              a(href="") 콘서트
+              a(href="/concert") 콘서트
             li
-              a(href="") 페스티벌
+              a(href="/concert/type/festival") 페스티벌
             li 
               a(href="/users/bltBrd") 커뮤니티
         div.search
@@ -51,11 +52,11 @@ html
             form(method="post", action="http://localhost:3002/users/login").login 
               input(class="user_id" name="user_id", type="text", placeholder="USERNAME")
               input(class="user_pw" name="user_pw", type="password", placeholder="PASSWORD")
-              button(type="button", name="login", class="login") 로그인
+              button(type="button", name="login", class="login1") 로그인
           div.login.url
             a(href="/users/join").join 회원가입
             div.login &nbsp;|&nbsp;
-            a(href="/users/loss/username").username 아이디
+            a(href="/users/loss/username").username 아이디 찾기
             div.login &nbsp;|&nbsp;
             a(href="/users/loss/password").password 비밀번호 찾기
             

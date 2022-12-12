@@ -24,14 +24,14 @@ PRIMARY KEY(username,genre_code)
 -- 관심공연
 create table if not exists concert_of_interest(
 username	varchar(255)	NOT NULL,		
-concert_code	varchar(20)	NOT NULL,	
+concert_code	integer	NOT NULL,	
 PRIMARY KEY(username,concert_code)	
 );
 
 -- 관심아티스트
 create table if not exists artist_of_interest(
 username	varchar(255)	NOT NULL,	
-artist_code	varchar(20)	NOT NULL,	
+artist_code	integer	NOT NULL,	
 PRIMARY KEY(username,artist_code)
 );
 
@@ -46,8 +46,7 @@ concert_place varchar(225) not null,
 concert_loc varchar(20) not null,
 concert_ticketing varchar(225),
 concert_type varchar(20),
-concert_views int,
-concert_artist varchar(225)
+concert_views int default 0
 );
 
 -- 공연-장르
@@ -59,8 +58,8 @@ PRIMARY KEY(concert_code,genre_code)
 
 -- 공연-아티스트
 create table if not exists concert_artist(
-concert_code	varchar(20)	NOT NULL,	
-artist_code	varchar(20)	NOT NULL,	
+concert_code	integer	NOT NULL,	
+artist_code	integer	NOT NULL,	
 PRIMARY KEY(concert_code,artist_code)
 );
 
@@ -70,13 +69,12 @@ artist_code bigint auto_increment primary key,
 artist_name	varchar(125)	NOT NULL,
 artist_type	varchar(20),
 artist_img varchar(255),	
-artist_debut	varchar(12),	
-artist_genre	varchar(20)	
+artist_debut	varchar(12)
 );
 
 -- 아티스트-장르
 create table if not exists artist_genre(
-artist_code	varchar(20)	NOT NULL,	
+artist_code	integer	NOT NULL,	
 genre_code	varchar(20)	NOT NULL,	
 PRIMARY KEY(artist_code,genre_code)
 );
