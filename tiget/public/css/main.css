@@ -63,6 +63,7 @@ div.main {
   scroll-snap-align: start;
 }
 div.test {
+  background-color: white;
   top: 80%;
   width: 100%;
   height: 20%;
@@ -115,9 +116,10 @@ header .user {
 header.active {
   background: linear-gradient(
     to right,
-    rgba(255, 0, 0, 1),
+    rgba(200, 32, 49, 1),
     rgba(100, 20, 20, 1)
   );
+  animation: 0.3s ease-out changeBg;
 }
 @keyframes changeBg {
   0% {
@@ -132,7 +134,7 @@ header.active {
   100% {
     background: linear-gradient(
       to right,
-      rgba(255, 0, 0, 1),
+      rgba(200, 32, 49, 1),
       rgba(100, 20, 20, 1)
     );
     opacity: 1;
