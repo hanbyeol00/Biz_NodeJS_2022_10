@@ -20,12 +20,13 @@ import DB from "../models/index.js";
 
 // sample router modules
 import indexRouter from "../routes/index.js";
+import todoRouter from "../routes/todo.js";
 import usersRouter from "../routes/users.js";
 
 // create express framework
 const app = express();
 
-DB.sequelize.sync({ force: true }).then((dbConn) => {
+DB.sequelize.sync({ force: false }).then((dbConn) => {
   console.log(dbConn.options.host, dbConn.config.database, "DB Connection OK");
 });
 
@@ -45,6 +46,7 @@ app.use(express.static(path.join("public")));
 
 // router link enable
 app.use("/", indexRouter);
+app.use("/todo", todoRouter);
 app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler
