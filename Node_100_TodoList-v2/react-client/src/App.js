@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="App">
       <header>
-        <h1>오늘할일</h1>
+        <h1>오늘할 일</h1>
       </header>
       <TodoMain />
     </div>
