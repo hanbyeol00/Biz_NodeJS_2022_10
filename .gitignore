@@ -8,4 +8,4 @@ package-lock.json
 mongoDB.*
 upload/
 uploads/
-nav_config.*
+naver_config.*
