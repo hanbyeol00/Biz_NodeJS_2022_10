@@ -7,4 +7,11 @@ const CLIENT_SECRET = {
 };
 const BOOK_URL_JSON = "https://openapi.naver.com/v1/search/book.json";
 
+const NAVER = {
+  CLIENT_ID,
+  CLIENT_SECRET,
+  BOOK_URL_JSON,
+};
+
+export default NAVER;
 export { CLIENT_ID, CLIENT_SECRET, BOOK_URL_JSON };
