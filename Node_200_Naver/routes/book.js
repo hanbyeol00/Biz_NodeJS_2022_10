@@ -2,6 +2,7 @@ import express from "express";
 import { getBooks } from "../modules/fetch_module.js";
 import DB from "../models/index.js";
 import { Op } from "sequelize";
+
 const BOOKS = DB.models.tbl_books;
 const MY_BOOKS = DB.models.tbl_mybooks;
 const USERS = DB.models.tbl_users;
@@ -85,8 +86,8 @@ router.post("/insert", async (req, res) => {
           ],
         },
       });
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      console.log(e);
       return res.send("내 도서 정보 추가 오류");
     }
   }
@@ -97,8 +98,8 @@ router.post("/insert", async (req, res) => {
 
     // return res.json({ BOOKS: books, MY_BOOKS: mybooks });
     res.redirect("/book");
-  } catch (err) {
-    console.log(err);
+  } catch (er) {
+    console.log(er);
     return res.send("Select 오류");
   }
 });
