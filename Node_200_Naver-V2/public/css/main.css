@@ -1,14 +1,22 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00b7ff;
+  text-decoration: none;
 }
+
 section.book.main .w3-card-4 {
   width: 70%;
-  margin: 20 auto !important;
-  border-radius: 15px;
+  margin: 20px auto;
+  border-radius: 15px !important;
 }
 
 section.book.main header {
