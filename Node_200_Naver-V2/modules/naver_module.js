@@ -1,6 +1,6 @@
 import NAVER from "../config/naver_config.js";
 
-const getBooks = async (search) => {
+export const getBooks = async (search) => {
   const naverFetchOption = {
     method: "GET",
     headers: {
@@ -37,4 +37,4 @@ const getBooks = async (search) => {
   return book_List;
 };
 
-export { getBooks };
+export default { getBooks };
