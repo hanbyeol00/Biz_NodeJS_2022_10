@@ -1,6 +1,5 @@
 import express from "express";
-import DB from "../models/index.js";
-const USER = DB.models.tbl_users;
+import { userLogin, userJoin } from "../modules/users_module.js";
 const router = express.Router();
 
 router.get("/join", async (req, res, next) => {
@@ -9,36 +8,56 @@ router.get("/join", async (req, res, next) => {
 });
 
 router.post("/join", async (req, res) => {
-  const { username, password, re_password } = req.body;
-  const resultError = { CODE: 0, MESSAGE: "" };
-
-  if (!username) {
-    resultError.CODE = 1;
-    resultError.MESSAGE = "* USERNAME 은 필수 항목입니다";
-    return res.render("users/join", { ERROR: resultError, USER: req.body });
+  try {
+    await userJoin(req.body);
+    return res.redirect("/");
+  } catch (e) {
+    return res.render("users/join", {
+      ERROR: JSON.parse(e.message),
+      USER: req.body,
+    });
   }
+});
 
-  if (!password) {
-    resultError.CODE = 2;
-    resultError.MESSAGE = "* 비밀번호를 반드시 입력해 주세요";
-    return res.render("users/join", { ERROR: resultError, USER: req.body });
+router.get("/login", (req, res) => {
+  // ?error=LOGIN 요청을 하면
+  // LOGIN_MSH = {"LOGIN":"LOGIN"}
+  const LOGIN_MSG = { [req.query.error]: req.query.error };
+  const user = { username: "", password: "", re_password: "" };
+  return res.render("users/login", {
+    ERROR: { CODE: 0 },
+    USER: user,
+    LOGIN_MSG,
+  });
+});
+
+router.post("/login", async (req, res) => {
+  let resultUser = {};
+  try {
+    resultUser = await userLogin(req.body);
+    // session 에 데이터를 저장할때는 비번과 같은 민감한 정보는 삭제해 주는 것이 좋다
+    resultUser.password = null;
+    req.session.user = resultUser;
+    // return res.json(resultUser);
+    return res.redirect("/");
+  } catch (e) {
+    console.log(e);
+    return res.render("users/login", {
+      ERROR: JSON.parse(e.message),
+      USER: req.body,
+    });
   }
+});
 
-  if (!re_password) {
-    resultError.CODE = 3;
-    resultError.MESSAGE = "* 비밀번호 확인을 입력해 주세요";
-    return res.render("users/join", { ERROR: resultError, USER: req.body });
-  }
-
-  if (password !== re_password) {
-    resultError.CODE = 4;
-    resultError.MESSAGE = "* 비밀번호와 비밀번호 확인이 서로 다릅니다";
-    return res.render("users/join", { ERROR: resultError, USER: req.body });
-  }
-
-  /**
-   * 비밀번호 암호화
-   */
+router.get("/logout", (req, res) => {
+  req.session.user = null;
+  const sendStr = `
+  <script>
+    alert("로그아웃 되었습니다")
+    document.location.href = "/"
+  </script>
+  `;
+  return res.send(sendStr);
 });
 
 export default router;

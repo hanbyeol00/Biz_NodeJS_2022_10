@@ -1,16 +1,16 @@
 import DB from "../models/index.js";
 // import { Op } from "sequelize";
+import { book_error } from "../config/error_code.js";
 
 const BOOKS = DB.models.tbl_books;
 const MY_BOOKS = DB.models.tbl_mybooks;
-const USERS = DB.models.tbl_users;
 
 export const bookInput = async (book, user) => {
   const my_book = {
-    my_username: user.username,
+    my_username: user?.username, // 로그인 정보가 없으면 null 값
     my_isbn: book.isbn,
     my_odate: book.odate,
-    my_oprice: book.discount,
+    my_opice: book.discount,
   };
 
   // 도서 정보 저장하기
@@ -26,9 +26,21 @@ export const bookInput = async (book, user) => {
       // exception 이 발생하면 exception 상위(호출한) 모듈로
       // 전가하기, 전달하기, 던지기
       // exception 을 직접 처리하지 않고 상위 모듈로 전달하기
-      throw new Error("도서 정보 저장 오류!!");
+
+      /**
+       * 2023-01-17 변경사항
+       * Error exception 을 발생할때 단순 문자열을 전달하지 않고
+       * JSON 객체 type 의 데이터 전달하기
+       * 이때 JSON 객체 type 은 stringify(변환) 하여 전달한다
+       * Error() 클래스는 문자열만 전달 할수 있기 때문에
+       */
+      throw new Error(JSON.stringify(book_error.BOOK_INSERT_ERROR));
     }
   }
+
+  // 혹시 로그인 정보가 누락되어 사용자 정보가 없으면
+  // my_books 정보를 저장하지 않도록 하기
+  if (!user?.username) return false;
 
   // 내(user) 도서 정보 저장하기
   try {
@@ -47,9 +59,29 @@ export const bookInput = async (book, user) => {
     } catch (e) {
       console.log("MyBook Update", e);
       // return res.send("내 도서 정보 추가 오류");
-      throw new Error("내 도서(MyBook) 정보 추가 오류");
+      throw new Error(JSON.stringify(book_error.MY_BOOK_INSERT_ERROR));
     }
   }
 };
 
-export default { bookInput };
+export const getMyBooks = async (user) => {
+  const username = user.username;
+  let myBooks = null;
+  try {
+    myBooks = await MY_BOOKS.findAll({
+      where: { my_username: username },
+      include: "my_isbn_tbl_book",
+    });
+  } catch (e) {
+    console.log(e);
+    throw new Error("MyBook Select 오류");
+  }
+
+  // return myBooks;
+  const myBooksInfo = myBooks.map((book) => {
+    return book.my_isbn_tbl_book;
+  });
+  return myBooksInfo;
+};
+
+export default { bookInput, getMyBooks };
