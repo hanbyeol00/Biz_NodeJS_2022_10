@@ -30,6 +30,11 @@ router.get("/session", async (req, res) => {
 // 회원가입하기
 router.post("/join", (req, res) => {});
 
+router.get("/logout", (req, res) => {
+  req.session.user = undefined;
+  return res.json(null);
+});
+
 // 로그인한 사용자 정보 get 하기
 router.get("/info", (req, res) => {});
 

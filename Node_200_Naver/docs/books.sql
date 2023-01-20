@@ -23,13 +23,17 @@ CREATE TABLE tbl_mybooks(
 	PRIMARY KEY(my_username, my_isbn)	
 );
 
+ALTER TABLE tbl_mybooks DROP CONSTRAINT f_users;
+DROP table tbl_users;
+
 CREATE TABLE tbl_users(
 username	VARCHAR(15)	NOT NULL	PRIMARY KEY,
 password	VARCHAR(13)	NOT NULL	,
 u_name	VARCHAR(125)	NOT NULL	,
 u_tel	VARCHAR(15)		,
 u_addr	VARCHAR(255)		,
-u_nickname	VARCHAR(125)		
+u_nickname	VARCHAR(125)	,
+u_level	INT	
 );
 
 /*
@@ -53,8 +57,34 @@ ADD CONSTRAINT f_users -- FK 이름(임의로)
 FOREIGN KEY (my_username) -- N 테이블의 연결 칼럼
 REFERENCES tbl_users(username); -- 1 테이블의 정보
 
+insert into tbl_users
+(username, password, u_level, u_name, u_nickname)
+values
+("han","1234",0,"홍길동","길동이");
 
+insert into tbl_users
+(username, password, u_level, u_name, u_nickname)
+values
+("han11","1234",0,"성춘향","춘향이");
 
+select * from tbl_users;
+select * from tbl_mybooks;
+select * from tbl_books;
+select * from tbl_users;
+select * from sessions;
+-- TRUNCATE 명령
+-- table 을 Drop 하고 다시 Create
+truncate table sessions;
+
+SHOW TABLES;
+
+select U.username, U.u_name, M.my_isbn, M.my_odate, B.title, B.author, B.publisher 
+from tbl_users U
+	left join tbl_mybooks M
+		on U.username = M.my_username
+	left join tbl_books B
+		on M.my_isbn = B.isbn
+where U.username = 'han'
 
 
 
