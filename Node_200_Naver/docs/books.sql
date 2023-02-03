@@ -72,9 +72,12 @@ select * from tbl_mybooks;
 select * from tbl_books;
 select * from tbl_users;
 select * from sessions;
+
 -- TRUNCATE 명령
 -- table 을 Drop 하고 다시 Create
 truncate table sessions;
+
+DESC sessions;
 
 SHOW TABLES;
 
