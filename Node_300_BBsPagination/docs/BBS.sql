@@ -22,3 +22,5 @@ create table tbl_bbs(
 );
 
 desc tbl_bbs;
+select count(*) from tbl_bbs;
+select * from tbl_bbs limit 20, 10;
