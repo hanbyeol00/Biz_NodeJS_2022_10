@@ -34,7 +34,7 @@ router.post("/papago", async (req, res) => {
     data,
     fetchOption1
   );
-  // console.log(result.data.message.result.translatedText);
+  console.log(result.data.message.result.translatedText);
   let answering = "";
   const test = async () => {
     const answer = await getAnswering(
@@ -43,6 +43,7 @@ router.post("/papago", async (req, res) => {
     answering = answer;
   };
   await test();
+  // console.log(answering);
   const fetchOption2 = {
     headers: {
       [CLIENT_ID.KEY]: CLIENT_ID.VALUE,
@@ -60,32 +61,33 @@ router.post("/papago", async (req, res) => {
     data1,
     fetchOption2
   );
+  return res.json(result2.data.message.result.translatedText);
 
-  const client = new textToSpeech.TextToSpeechClient({
-    projectId: "promising-saga-378605",
-    keyFilename: "./config/promising-saga-378605-196a974a1f7c.json",
-  });
-  function playTTS(text) {
-    const request = {
-      input: { text },
-      voice: { languageCode: "ko", ssmlGender: "NEUTRAL" },
-      audioConfig: { audioEncoding: "MP3" },
-    };
+  // const client = new textToSpeech.TextToSpeechClient({
+  //   projectId: "promising-saga-378605",
+  //   keyFilename: "./config/promising-saga-378605-196a974a1f7c.json",
+  // });
+  // function playTTS(text) {
+  //   const request = {
+  //     input: { text },
+  //     voice: { languageCode: "ko", ssmlGender: "NEUTRAL" },
+  //     audioConfig: { audioEncoding: "MP3" },
+  //   };
 
-    client.synthesizeSpeech(request, (err, response) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
+  //   client.synthesizeSpeech(request, (err, response) => {
+  //     if (err) {
+  //       console.error(err);
+  //       return;
+  //     }
 
-      const audioContent = response.audioContent.toString("base64");
-      const data = {
-        audioContent: audioContent,
-      };
-      res.json(data);
-    });
-  }
-  playTTS(result2.data.message.result.translatedText);
+  //     const audioContent = response.audioContent.toString("base64");
+  //     const data = {
+  //       audioContent: audioContent,
+  //     };
+  //     res.json(data);
+  //   });
+  // }
+  // playTTS(result2.data.message.result.translatedText);
 
   return res.json();
 });
