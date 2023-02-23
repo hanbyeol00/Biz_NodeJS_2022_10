@@ -7,6 +7,9 @@ nav.main ul {
   list-style: none;
   display: flex;
 }
+nav.main li.login {
+  margin-left: auto;
+}
 
 nav.main a {
   display: inline-block;

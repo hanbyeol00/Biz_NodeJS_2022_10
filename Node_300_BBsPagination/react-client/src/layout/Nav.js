@@ -14,7 +14,7 @@ const MainNav = () => {
         <li>
           <NavLink to="/bbs/1">자유게시판</NavLink>
         </li>
-        <li>
+        <li className="main nav login">
           <NavLink to="/user/login">로그인</NavLink>
         </li>
         <li>

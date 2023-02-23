@@ -1,9 +1,24 @@
 import { Link, useLoaderData } from "react-router-dom";
+import BBsSearch from "./BBsSearch";
+import PageNavi from "./PageNavi";
+
+export const loader = async ({ params, values }) => {
+  console.log(values.orderValue, values.filterValue);
+  const pageNum = params?.pageNum || 1;
+  const listLimit = 5;
+  const pageNavCount = 5;
+
+  const res = await fetch(
+    `/api?pageNum=${pageNum}&listLimit=${listLimit}&pageNavCount=${pageNavCount}`
+  );
+  const { bbsList, pagiNation } = await res.json();
+  return { bbsList, pagiNation };
+};
 
 const bbsListView = (bbsList) => {
   return bbsList.map((bbs) => {
     return (
-      <tr>
+      <tr key={bbs.b_seq}>
         <td>{bbs.b_seq}</td>
         <td>{bbs.b_date}</td>
         <td>{bbs.b_time}</td>
@@ -37,6 +52,8 @@ const BBsList = () => {
         </thead>
         <tbody>{listResult}</tbody>
       </table>
+      <BBsSearch />
+      <PageNavi />
     </>
   );
 };
