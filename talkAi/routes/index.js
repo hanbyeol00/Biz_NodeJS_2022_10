@@ -17,112 +17,76 @@ router.get("/", async (req, res, next) => {
 });
 router.post("/papago", async (req, res) => {
   const { voice } = req.body;
-  const fetchOption1 = {
-    headers: {
-      [CLIENT_ID.KEY]: CLIENT_ID.VALUE,
-      [CLIENT_SECRET.KEY]: CLIENT_SECRET.VALUE,
-      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-    },
-  };
-  const data = new URLSearchParams({
-    source: "ko",
-    target: "en",
-    text: voice,
-  });
-  const result = await axios.post(
-    "https://openapi.naver.com/v1/papago/n2mt",
-    data,
-    fetchOption1
-  );
-  console.log(result.data.message.result.translatedText);
+  // const fetchOption1 = {
+  //   headers: {
+  //     [CLIENT_ID.KEY]: CLIENT_ID.VALUE,
+  //     [CLIENT_SECRET.KEY]: CLIENT_SECRET.VALUE,
+  //     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+  //   },
+  // };
+  // const data = new URLSearchParams({
+  //   source: "ko",
+  //   target: "en",
+  //   text: voice,
+  // });
+  // const result = await axios.post(
+  //   "https://openapi.naver.com/v1/papago/n2mt",
+  //   data,
+  //   fetchOption1
+  // );
   let answering = "";
   const test = async () => {
     const answer = await getAnswering(
-      result.data.message.result.translatedText
+      // result.data.message.result.translatedText
+      voice
     );
     answering = answer;
   };
   await test();
-  // console.log(answering);
-  const fetchOption2 = {
-    headers: {
-      [CLIENT_ID.KEY]: CLIENT_ID.VALUE,
-      [CLIENT_SECRET.KEY]: CLIENT_SECRET.VALUE,
-      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-    },
-  };
-  const data1 = new URLSearchParams({
-    source: "en",
-    target: "ko",
-    text: answering,
-  });
-  const result2 = await axios.post(
-    "https://openapi.naver.com/v1/papago/n2mt",
-    data1,
-    fetchOption2
-  );
-  return res.json(result2.data.message.result.translatedText);
 
-  // const client = new textToSpeech.TextToSpeechClient({
-  //   projectId: "promising-saga-378605",
-  //   keyFilename: "./config/promising-saga-378605-196a974a1f7c.json",
+  // const fetchOption2 = {
+  //   headers: {
+  //     [CLIENT_ID.KEY]: CLIENT_ID.VALUE,
+  //     [CLIENT_SECRET.KEY]: CLIENT_SECRET.VALUE,
+  //     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+  //   },
+  // };
+  // const data1 = new URLSearchParams({
+  //   source: "en",
+  //   target: "ko",
+  //   text: answering,
   // });
-  // function playTTS(text) {
-  //   const request = {
-  //     input: { text },
-  //     voice: { languageCode: "ko", ssmlGender: "NEUTRAL" },
-  //     audioConfig: { audioEncoding: "MP3" },
-  //   };
+  // const result2 = await axios.post(
+  //   "https://openapi.naver.com/v1/papago/n2mt",
+  //   data1,
+  //   fetchOption2
+  // );
 
-  //   client.synthesizeSpeech(request, (err, response) => {
-  //     if (err) {
-  //       console.error(err);
-  //       return;
-  //     }
+  const client = new textToSpeech.TextToSpeechClient({
+    projectId: "promising-saga-378605",
+    keyFilename: "./config/promising-saga-378605-196a974a1f7c.json",
+  });
+  function playTTS(text) {
+    const request = {
+      input: { text },
+      voice: { languageCode: "ko", ssmlGender: "NEUTRAL" },
+      audioConfig: { audioEncoding: "MP3" },
+    };
 
-  //     const audioContent = response.audioContent.toString("base64");
-  //     const data = {
-  //       audioContent: audioContent,
-  //     };
-  //     res.json(data);
-  //   });
-  // }
+    client.synthesizeSpeech(request, (err, response) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+
+      const audioContent = response.audioContent.toString("base64");
+
+      return res.json({ audioContent, text });
+    });
+  }
   // playTTS(result2.data.message.result.translatedText);
-
-  return res.json();
+  playTTS(answering);
 });
-// router.post("/post", async (req, res) => {
-// const { question } = req.body;
-// console.log(question);
-// const answering = await getAnswering(question);
-// console.log(answering);
-// return res.json(answering);
-// const client = new textToSpeech.TextToSpeechClient({
-//   projectId: "promising-saga-378605",
-//   keyFilename: "./config/promising-saga-378605-196a974a1f7c.json",
-// });
-// function playTTS(text) {
-//   const request = {
-//     input: { text },
-//     voice: { languageCode: "ko", ssmlGender: "NEUTRAL" },
-//     audioConfig: { audioEncoding: "MP3" },
-//   };
-//   client.synthesizeSpeech(request, (err, response) => {
-//     if (err) {
-//       console.error(err);
-//       return;
-//     }
-//     fs.writeFile("output.mp3", response.audioContent, "binary", (err) => {
-//       if (err) {
-//         console.error(err);
-//         return;
-//       }
-//       console.log("TTS file saved!");
-//     });
-//   });
-// }
-// playTTS(text);
-// });
 
 router.post("/audio", async (req, res) => {});
 
