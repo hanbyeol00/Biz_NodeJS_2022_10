@@ -8,13 +8,17 @@ import {
 import textToSpeech from "@google-cloud/text-to-speech";
 import fs from "fs";
 import axios from "axios";
+import DB from "../models/index.js";
 
+const TALKWISE = DB.models.tbl_talkwise;
+const CATEGORY = DB.models.tbl_category;
 const router = express.Router();
 
 /* GET home page. */
 router.get("/", async (req, res, next) => {
   res.render("test");
 });
+
 router.post("/papago", async (req, res) => {
   const { voice } = req.body;
   // const fetchOption1 = {
@@ -88,6 +92,38 @@ router.post("/papago", async (req, res) => {
   playTTS(answering);
 });
 
-router.post("/audio", async (req, res) => {});
+router.get("/bookmark", async (req, res) => {
+  try {
+    const result = await CATEGORY.findAll({
+      include: [{ model: TALKWISE, as: "f_talk_cate" }],
+    });
+    return res.json(result);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+router.post("/bookmark/insert", async (req, res) => {
+  const info = req.body;
+  const { answer } = req.body;
+  try {
+    const data = await TALKWISE.findOne({ where: { answer: answer } });
+    if (!data) {
+      try {
+        await TALKWISE.create(info);
+        const result = await TALKWISE.findOne({ where: { answer: answer } });
+        const { seq } = result;
+        console.log(seq);
+        await CATEGORY.create({ t_seq: seq, category: "All" });
+        return false;
+      } catch (e) {
+        return console.log(e);
+      }
+    }
+    return res.json({ err: "이미 저장됨" });
+  } catch (e) {
+    console.log(e);
+  }
+});
 
 export default router;
