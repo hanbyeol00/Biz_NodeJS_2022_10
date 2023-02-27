@@ -10,6 +10,7 @@
 import express from "express";
 import createError from "http-errors";
 import path from "path";
+import bodyParser from "body-parser";
 
 // 3rd party lib modules
 import cookieParser from "cookie-parser";
@@ -24,7 +25,7 @@ import usersRouter from "../routes/users.js";
 // create express framework
 const app = express();
 
-DB.sequelize.sync({ force: true }).then((dbConn) => {
+DB.sequelize.sync({ force: false }).then((dbConn) => {
   console.log(dbConn.options.host, dbConn.config.database, "DB Connection OK");
 });
 
@@ -36,11 +37,15 @@ app.set("views", path.join("views"));
 app.set("view engine", "pug");
 
 // middleWare enable
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join("public")));
+// after
+app.use(bodyParser.json({ limit: "50mb" }));
 
 // router link enable
 app.use("/test", indexRouter);

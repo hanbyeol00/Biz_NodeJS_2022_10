@@ -6,7 +6,6 @@ const initModels = (sequelize) => {
   const tbl_talkwise = _tbl_talkwise(sequelize);
   const tbl_category = _tbl_category(sequelize);
 
-  tbl_talkwise.hasMany(tbl_category, { as: "f_cate_talk", foreignKey: "seq" });
   tbl_category.belongsTo(tbl_talkwise, {
     as: "f_talk_cate",
     foreignKey: "t_seq",

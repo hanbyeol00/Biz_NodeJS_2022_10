@@ -10,15 +10,15 @@ export default (sequelize) => {
         primaryKey: true,
       },
       question: {
-        type: Sequelize.DataTypes.STRING(256),
+        type: Sequelize.DataTypes.TEXT,
         allowNull: false,
       },
       answer: {
-        type: Sequelize.DataTypes.STRING(256),
+        type: Sequelize.DataTypes.TEXT,
         allowNull: false,
       },
       audio: {
-        type: Sequelize.DataTypes.TEXT,
+        type: Sequelize.DataTypes.TEXT("medium"),
         allowNull: false,
       },
     },

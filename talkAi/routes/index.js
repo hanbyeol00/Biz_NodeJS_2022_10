@@ -92,12 +92,17 @@ router.post("/papago", async (req, res) => {
   playTTS(answering);
 });
 
-router.get("/bookmark", async (req, res) => {
+router.get("/bookmark/:category", async (req, res) => {
+  const category = req.params.category;
   try {
     const result = await CATEGORY.findAll({
+      where: { category: category },
       include: [{ model: TALKWISE, as: "f_talk_cate" }],
     });
-    return res.json(result);
+    const categoryList = await CATEGORY.findAll({
+      include: [{ model: TALKWISE, as: "f_talk_cate" }],
+    });
+    return res.json({ result, categoryList });
   } catch (e) {
     console.log(e);
   }
@@ -123,6 +128,85 @@ router.post("/bookmark/insert", async (req, res) => {
     return res.json({ err: "이미 저장됨" });
   } catch (e) {
     console.log(e);
+  }
+});
+
+router.post("/bookmark/add", async (req, res) => {
+  const categoryInfo = req.body;
+
+  // categoryInfo가 존재하지 않거나 t_seq와 category가 모두 존재하지 않는 경우
+  if (!categoryInfo || !categoryInfo.t_seq || !categoryInfo.category) {
+    return res.status(400).json({ error: "잘못된 요청입니다." });
+  }
+
+  try {
+    const { t_seq, category } = categoryInfo;
+
+    // TALKWISE 레코드 가져오기
+    const talkwiseList = await TALKWISE.findAll({
+      where: { seq: t_seq },
+    });
+
+    // categoryInfo.t_seq에 해당하는 TALKWISE 레코드 중 일부가 존재하지 않는 경우
+    if (talkwiseList.length !== t_seq.length) {
+      return res.status(400).json({ error: "잘못된 요청입니다." });
+    }
+
+    // CATEGORY 레코드 생성
+    const categoryRecords = await Promise.all(
+      t_seq.map(async (seq) => {
+        const categoryRecord = await CATEGORY.create({
+          t_seq: seq,
+          category,
+        });
+        return categoryRecord;
+      })
+    );
+
+    return res.status(200).json({ message: "카테고리 추가 완료" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "서버 오류" });
+  }
+});
+
+router.delete("/bookmark/delete", async (req, res) => {
+  try {
+    const { category } = req.query;
+
+    // category가 전달되지 않은 경우
+    if (!category) {
+      return res.status(400).json({ error: "잘못된 요청입니다." });
+    }
+
+    // category에 해당하는 모든 CATEGORY 레코드를 가져옴
+    const categoryRecords = await CATEGORY.findAll({
+      where: { category: category },
+    });
+
+    // CATEGORY 레코드가 존재하지 않는 경우
+    if (categoryRecords.length === 0) {
+      return res.status(400).json({ error: "잘못된 요청입니다." });
+    }
+
+    // TALKWISE와 CATEGORY를 연결하는 레코드를 삭제
+    await CATEGORY.destroy({
+      where: {
+        category: categoryRecords.map((record) => record.category),
+      },
+    });
+
+    // CATEGORY 레코드를 삭제
+    await CATEGORY.destroy({
+      where: {
+        category: category,
+      },
+    });
+
+    return res.status(200).json({ message: "북마크 삭제 완료" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "서버 오류" });
   }
 });
 
