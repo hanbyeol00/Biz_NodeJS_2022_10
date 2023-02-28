@@ -3,14 +3,22 @@ import BBsSearch from "./BBsSearch";
 import PageNavi from "./PageNavi";
 
 export const loader = async ({ params, values }) => {
-  console.log(values.orderValue, values.filterValue);
   const pageNum = params?.pageNum || 1;
   const listLimit = 5;
   const pageNavCount = 5;
 
-  const res = await fetch(
-    `/api?pageNum=${pageNum}&listLimit=${listLimit}&pageNavCount=${pageNavCount}`
-  );
+  // JSON type 의 객체를 queryString 객체를 변환
+  const apiParams = new URLSearchParams({
+    pageNum,
+    order: values.orderValue.eng,
+    filter: values.filterValue.eng,
+    listLimit,
+    pageNavCount,
+  });
+
+  const strParams = apiParams.toString();
+
+  const res = await fetch(`/api?${strParams}`);
   const { bbsList, pagiNation } = await res.json();
   return { bbsList, pagiNation };
 };
