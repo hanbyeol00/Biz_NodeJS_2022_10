@@ -2,7 +2,7 @@ import { Configuration, OpenAIApi } from "openai";
 
 const getAnswering = async (question) => {
   const configuration = new Configuration({
-    apiKey: "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",
+    apiKey: "API KEY",
   });
   const openai = new OpenAIApi(configuration);
   await new Promise((r) => setTimeout(r, 100));
