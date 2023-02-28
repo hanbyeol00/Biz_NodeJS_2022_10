@@ -92,15 +92,46 @@ router.post("/papago", async (req, res) => {
   playTTS(answering);
 });
 
+router.post("/audio", async (req, res) => {
+  const t_seq = req.body.t_seq;
+  try {
+    const result = await TALKWISE.findOne({
+      where: { seq: t_seq },
+      attributes: ["audio"],
+    });
+    if (!result) {
+      return res
+        .status(404)
+        .json({ error: `seq ${t_seq}에 해당하는 레코드를 찾을 수 없습니다.` });
+    }
+    return res.json(result);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "서버 오류가 발생했습니다." });
+  }
+});
+
 router.get("/bookmark/:category", async (req, res) => {
   const category = req.params.category;
   try {
     const result = await CATEGORY.findAll({
       where: { category: category },
-      include: [{ model: TALKWISE, as: "f_talk_cate" }],
+      include: [
+        {
+          model: TALKWISE,
+          as: "f_talk_cate",
+          attributes: ["seq", "question", "answer"],
+        },
+      ],
     });
     const categoryList = await CATEGORY.findAll({
-      include: [{ model: TALKWISE, as: "f_talk_cate" }],
+      include: [
+        {
+          model: TALKWISE,
+          as: "f_talk_cate",
+          attributes: ["seq", "question", "answer"],
+        },
+      ],
     });
     return res.json({ result, categoryList });
   } catch (e) {
@@ -131,6 +162,80 @@ router.post("/bookmark/insert", async (req, res) => {
   }
 });
 
+router.post("/bookmark/edit", async (req, res) => {
+  const categoryEdit = req.body;
+
+  try {
+    if (
+      !categoryEdit ||
+      !categoryEdit.t_seq ||
+      !categoryEdit.category ||
+      !categoryEdit.prevCategory
+    ) {
+      return res.status(400).json({ error: "잘못된 요청입니다." });
+    }
+
+    const { t_seq, category, prevCategory } = categoryEdit;
+
+    if (prevCategory === category) {
+      const existingRecords = await CATEGORY.findAll({
+        where: { category },
+      });
+
+      const existingSeq = existingRecords.map((record) => record.t_seq);
+      // console.log("추가할 seq", newSeq, "현재 seq", existingSeq);
+      console.log(t_seq.length);
+
+      if (existingSeq.length >= t_seq.length) {
+        const promises = await existingSeq.map(async (seq) => {
+          if (!t_seq.includes(seq)) {
+            await CATEGORY.destroy({
+              where: { t_seq: seq, category },
+            });
+          }
+        });
+        await Promise.all(promises);
+      } else if (t_seq.length > existingSeq.length) {
+        const promises = await t_seq.map(async (seq) => {
+          const recordExists = existingRecords.some(
+            (record) => record.t_seq === seq
+          );
+          console.log(recordExists);
+
+          if (recordExists) {
+            return;
+          } else {
+            await CATEGORY.create({
+              t_seq: seq,
+              category,
+            });
+          }
+        });
+        await Promise.all(promises);
+      }
+      return res.status(200).json({ message: "카테고리 수정 완료" });
+    } else {
+      await CATEGORY.destroy({
+        where: { category: prevCategory },
+      });
+
+      await Promise.all(
+        t_seq.map(async (seq) => {
+          await CATEGORY.create({
+            t_seq: seq,
+            category,
+          });
+        })
+      );
+
+      return res.status(200).json({ message: "카테고리 수정 완료" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "서버 오류" });
+  }
+});
+
 router.post("/bookmark/add", async (req, res) => {
   const categoryInfo = req.body;
 
@@ -153,7 +258,7 @@ router.post("/bookmark/add", async (req, res) => {
     }
 
     // CATEGORY 레코드 생성
-    const categoryRecords = await Promise.all(
+    await Promise.all(
       t_seq.map(async (seq) => {
         const categoryRecord = await CATEGORY.create({
           t_seq: seq,
