@@ -21,54 +21,54 @@ router.get("/", async (req, res, next) => {
 
 router.post("/papago", async (req, res) => {
   const { voice } = req.body;
-  // const fetchOption1 = {
-  //   headers: {
-  //     [CLIENT_ID.KEY]: CLIENT_ID.VALUE,
-  //     [CLIENT_SECRET.KEY]: CLIENT_SECRET.VALUE,
-  //     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-  //   },
-  // };
-  // const data = new URLSearchParams({
-  //   source: "ko",
-  //   target: "en",
-  //   text: voice,
-  // });
-  // const result = await axios.post(
-  //   "https://openapi.naver.com/v1/papago/n2mt",
-  //   data,
-  //   fetchOption1
-  // );
+  const fetchOption1 = {
+    headers: {
+      [CLIENT_ID.KEY]: CLIENT_ID.VALUE,
+      [CLIENT_SECRET.KEY]: CLIENT_SECRET.VALUE,
+      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+    },
+  };
+  const data = new URLSearchParams({
+    source: "ko",
+    target: "en",
+    text: voice,
+  });
+  const result = await axios.post(
+    "https://openapi.naver.com/v1/papago/n2mt",
+    data,
+    fetchOption1
+  );
   let answering = "";
   const test = async () => {
     const answer = await getAnswering(
-      // result.data.message.result.translatedText
-      voice
+      result.data.message.result.translatedText
+      // voice
     );
     answering = answer;
   };
   await test();
 
-  // const fetchOption2 = {
-  //   headers: {
-  //     [CLIENT_ID.KEY]: CLIENT_ID.VALUE,
-  //     [CLIENT_SECRET.KEY]: CLIENT_SECRET.VALUE,
-  //     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-  //   },
-  // };
-  // const data1 = new URLSearchParams({
-  //   source: "en",
-  //   target: "ko",
-  //   text: answering,
-  // });
-  // const result2 = await axios.post(
-  //   "https://openapi.naver.com/v1/papago/n2mt",
-  //   data1,
-  //   fetchOption2
-  // );
+  const fetchOption2 = {
+    headers: {
+      [CLIENT_ID.KEY]: CLIENT_ID.VALUE,
+      [CLIENT_SECRET.KEY]: CLIENT_SECRET.VALUE,
+      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+    },
+  };
+  const data1 = new URLSearchParams({
+    source: "en",
+    target: "ko",
+    text: answering,
+  });
+  const result2 = await axios.post(
+    "https://openapi.naver.com/v1/papago/n2mt",
+    data1,
+    fetchOption2
+  );
 
   const client = new textToSpeech.TextToSpeechClient({
     projectId: "promising-saga-378605",
-    keyFilename: "./config/promising-saga-378605-196a974a1f7c.json",
+    keyFilename: "./config/promising-saga-378605-9c0c57507779.json",
   });
   function playTTS(text) {
     const request = {
@@ -88,8 +88,8 @@ router.post("/papago", async (req, res) => {
       return res.json({ audioContent, text });
     });
   }
-  // playTTS(result2.data.message.result.translatedText);
-  playTTS(answering);
+  playTTS(result2.data.message.result.translatedText);
+  // playTTS(answering);
 });
 
 router.post("/audio", async (req, res) => {
@@ -183,10 +183,8 @@ router.post("/bookmark/edit", async (req, res) => {
       });
 
       const existingSeq = existingRecords.map((record) => record.t_seq);
-      // console.log("추가할 seq", newSeq, "현재 seq", existingSeq);
-      console.log(t_seq.length);
 
-      if (existingSeq.length >= t_seq.length) {
+      if (existingSeq.length > t_seq.length) {
         const promises = await existingSeq.map(async (seq) => {
           if (!t_seq.includes(seq)) {
             await CATEGORY.destroy({
@@ -195,13 +193,33 @@ router.post("/bookmark/edit", async (req, res) => {
           }
         });
         await Promise.all(promises);
+      } else if (existingSeq.length === t_seq.length) {
+        const deletePromises = existingSeq.map(async (seq) => {
+          if (!t_seq.includes(seq)) {
+            await CATEGORY.destroy({
+              where: { t_seq: seq, category },
+            });
+          }
+        });
+        await Promise.all(deletePromises);
+
+        const addPromises = t_seq.map(async (seq) => {
+          const recordExists = existingRecords.some(
+            (record) => record.t_seq === seq
+          );
+          if (!recordExists) {
+            await CATEGORY.create({
+              t_seq: seq,
+              category,
+            });
+          }
+        });
+        await Promise.all(addPromises);
       } else if (t_seq.length > existingSeq.length) {
         const promises = await t_seq.map(async (seq) => {
           const recordExists = existingRecords.some(
             (record) => record.t_seq === seq
           );
-          console.log(recordExists);
-
           if (recordExists) {
             return;
           } else {
