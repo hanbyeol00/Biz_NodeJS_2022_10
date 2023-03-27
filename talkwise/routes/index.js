@@ -333,4 +333,15 @@ router.delete("/bookmark/delete", async (req, res) => {
   }
 });
 
+router.delete("/all/bookmark/delete", async (req, res) => {
+  const seq = req.body.t_seq;
+  try {
+    await CATEGORY.destroy({ where: { t_seq: seq } });
+    await TALKWISE.destroy({ where: { seq: seq } });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "서버 오류" });
+  }
+});
+
 export default router;
